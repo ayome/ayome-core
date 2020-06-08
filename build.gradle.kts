@@ -23,8 +23,12 @@ dependencies {
     implementation("org.springframework.shell:spring-shell-standard:2.0.1.RELEASE")
     implementation("org.springframework.shell:spring-shell-shell1-adapter:2.0.1.RELEASE")
 
+    implementation("org.reflections:reflections:0.9.9")
+    implementation("com.corundumstudio.socketio:netty-socketio:1.7.12")
+
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation(kotlin("stdlib-jdk8"))
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
 }
 
 tasks {

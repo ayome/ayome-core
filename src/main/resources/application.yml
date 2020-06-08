@@ -11,5 +11,5 @@ spring:
   main:
     banner-mode: off
 
-application:
-  prefix: "> "
+server:
+  port: 7401
