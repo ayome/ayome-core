@@ -1,0 +1,15 @@
+logging:
+  level:
+    root: info
+    org.jline: error
+    org.apache: error
+    org.springframework: error
+  file:
+    name: "cloud.log"
+
+spring:
+  main:
+    banner-mode: off
+
+application:
+  prefix: "> "
