@@ -1,9 +1,12 @@
 logging:
   level:
     root: info
-    org.jline: error
-    org.apache: error
-    org.springframework: error
+    org:
+      jline: error
+      apache: error
+      reflections: error
+      corundumstudio: error
+      springframework: error
   file:
     name: "cloud.log"
 
