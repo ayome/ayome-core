@@ -9,7 +9,7 @@ import kotlin.system.exitProcess
 class InstallationSetup {
 
     fun startInstallation() {
-        SystemRuntime.logger.info("Setting up dependencies")
+        SystemRuntime.logger.info("Setting up dependencies...")
 
         when (false) {
             DockerSetup().isInstalled() -> DockerSetup().install()
