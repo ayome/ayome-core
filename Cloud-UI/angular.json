@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Cloud-UI": {
+    "cloud-ui": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -35,11 +35,11 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/Cloud-UI",
+            "outputPath": "dist/cloud-ui",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.app.json",
+            "polyfills": "config/polyfills.ts",
+            "tsConfig": "config/tsconfig.app.json",
             "aot": true,
             "assets": [
               "src/favicon.ico",
@@ -84,27 +84,27 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "Cloud-UI:build"
+            "browserTarget": "cloud-ui:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "Cloud-UI:build:production"
+              "browserTarget": "cloud-ui:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "Cloud-UI:build"
+            "browserTarget": "cloud-ui:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
+            "main": "config/test.ts",
+            "polyfills": "config/polyfills.ts",
+            "tsConfig": "config/tsconfig.spec.json",
+            "karmaConfig": "config/karma.conf.js",
             "assets": [
               "src/favicon.ico",
               "src/assets"
@@ -119,8 +119,8 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json",
+              "config/tsconfig.app.json",
+              "config/tsconfig.spec.json",
               "e2e/tsconfig.json"
             ],
             "exclude": [
@@ -132,15 +132,15 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "Cloud-UI:serve"
+            "devServerTarget": "cloud-ui:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "Cloud-UI:serve:production"
+              "devServerTarget": "cloud-ui:serve:production"
             }
           }
         }
       }
     }},
-  "defaultProject": "Cloud-UI"
+  "defaultProject": "cloud-ui"
 }
