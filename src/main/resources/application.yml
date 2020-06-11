@@ -5,14 +5,19 @@ logging:
       jline: error
       apache: error
       reflections: error
-      corundumstudio: error
       springframework: error
+    com:
+      corundumstudio: error
+    io:
+      netty: error
   file:
     name: "cloud.log"
 
 spring:
   main:
     banner-mode: off
+  profiles:
+    active: default
 
 server:
   port: 7401

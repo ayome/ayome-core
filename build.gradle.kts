@@ -16,12 +16,15 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-devtools")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.security:spring-security-core")
     implementation("org.springframework.boot:spring-boot-configuration-processor")
+
+    implementation("org.springframework.security:spring-security-core")
 
     implementation("org.springframework.shell:spring-shell-core:2.0.1.RELEASE")
     implementation("org.springframework.shell:spring-shell-standard:2.0.1.RELEASE")
     implementation("org.springframework.shell:spring-shell-shell1-adapter:2.0.1.RELEASE")
+    implementation("org.springframework.shell:spring-shell-jcommander-adapter:2.0.1.RELEASE")
+    implementation("org.springframework.shell:spring-shell-table:2.0.1.RELEASE")
 
     implementation("org.xerial:sqlite-jdbc:3.30.1")
     implementation("org.reflections:reflections:0.9.9")

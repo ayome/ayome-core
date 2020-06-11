@@ -11,5 +11,6 @@ class ApplicationCommands {
     @ShellMethod("print a test")
     fun abc() {
         this.logger.info("hey was geht")
+        
     }
 }
