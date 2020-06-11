@@ -9,3 +9,6 @@ node_modules
 
 *.log
 *.db
+
+Cloud-Main/src/main/resources/static
+Cloud-Main/src/main/resources/static/*

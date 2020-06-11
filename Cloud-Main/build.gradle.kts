@@ -7,6 +7,8 @@ plugins {
 
 group = "dev.jonaz.cloud"
 
+setBuildDir("../build")
+
 repositories {
     jcenter()
     mavenCentral()
@@ -44,5 +46,11 @@ tasks {
     }
     compileTestKotlin {
         kotlinOptions.jvmTarget = "1.8"
+    }
+    register("buildAll") {
+        group = "application"
+
+        dependsOn(":Cloud-UI:copyStaticFiles")
+        finalizedBy("build")
     }
 }
