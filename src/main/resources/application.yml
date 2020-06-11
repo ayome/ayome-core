@@ -12,6 +12,7 @@ logging:
       netty: error
   file:
     name: "cloud.log"
+    path: "."
 
 spring:
   main:

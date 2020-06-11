@@ -1,10 +1,12 @@
 package dev.jonaz.cloud.util.system
 
+import dev.jonaz.cloud.util.system.os.SystemCheck
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 class SystemRuntime {
     companion object {
+        val systemType = SystemCheck().getSystemTypes()
         val runtime: Runtime = Runtime.getRuntime()
         val logger: Logger = LoggerFactory.getLogger(this::class.java)
     }

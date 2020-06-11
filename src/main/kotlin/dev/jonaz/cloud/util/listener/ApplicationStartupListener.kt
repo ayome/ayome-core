@@ -1,6 +1,7 @@
 package dev.jonaz.cloud.util.listener
 
 import dev.jonaz.cloud.components.setup.InstallationSetup
+import dev.jonaz.cloud.components.setup.SystemSetup
 import dev.jonaz.cloud.util.exposed.DatabaseInitializer
 import dev.jonaz.cloud.util.exposed.SchemaManager
 import dev.jonaz.cloud.util.socket.SocketMappingInitializer
@@ -22,8 +23,7 @@ class ApplicationStartupListener : InitializingBean {
         DatabaseInitializer().connect()
         SchemaManager().createSchema()
 
-        when (InstallationSetup().isInstalled()) {
-            false -> InstallationSetup().startInstallation()
-        }
+        SystemSetup().isCompatible()
+        InstallationSetup().startInstallation()
     }
 }

@@ -1,11 +1,12 @@
 package dev.jonaz.cloud.util.exposed
 
+import dev.jonaz.cloud.model.DatabaseModel
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.TransactionManager
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.sql.Connection
 
-class SchemaManager {
+class SchemaManager : DatabaseModel() {
 
     init {
         TransactionManager.manager.defaultIsolationLevel =
@@ -14,5 +15,8 @@ class SchemaManager {
 
     fun createSchema() = transaction {
         SchemaUtils.createDatabase("data")
+        SchemaUtils.create(
+            Application
+        )
     }
 }
