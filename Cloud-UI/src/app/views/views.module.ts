@@ -6,6 +6,7 @@ import {environment} from "environments/environment";
 import {SocketService} from "../services/socket.service";
 import {DashboardView} from "./dashboard/dashboard.view";
 import {FormsModule} from "@angular/forms";
+import {ProxyView} from "./management/proxy/proxy.view";
 
 const socketConfig: SocketIoConfig = {
     url: environment.socketHost,
@@ -15,7 +16,8 @@ const socketConfig: SocketIoConfig = {
 @NgModule({
     declarations: [
         LoginView,
-        DashboardView
+        DashboardView,
+        ProxyView
     ],
     providers: [
         SocketService

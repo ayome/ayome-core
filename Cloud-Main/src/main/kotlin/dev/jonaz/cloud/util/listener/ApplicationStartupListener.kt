@@ -7,13 +7,22 @@ import dev.jonaz.cloud.util.exposed.DatabaseInitializer
 import dev.jonaz.cloud.util.exposed.SchemaManager
 import dev.jonaz.cloud.util.socket.SocketMappingInitializer
 import dev.jonaz.cloud.util.socket.SocketServer
+import dev.jonaz.cloud.util.system.SystemPathManager
+import dev.jonaz.cloud.util.system.SystemRuntime
 import org.springframework.beans.factory.InitializingBean
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.core.env.Environment
 import org.springframework.stereotype.Component
 
 @Component
 class ApplicationStartupListener : InitializingBean {
+    @Autowired
+    lateinit var env: Environment
 
     override fun afterPropertiesSet() {
+        SystemSetup().isCompatible()
+        SystemPathManager().setSystemPath(env)
+
         NetworkSetup().setupNetwork()
 
         SocketServer().startAsync()
@@ -22,7 +31,6 @@ class ApplicationStartupListener : InitializingBean {
         DatabaseInitializer().connect()
         SchemaManager().createSchema()
 
-        SystemSetup().isCompatible()
         InstallationSetup().startInstallation()
     }
 }

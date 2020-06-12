@@ -17,7 +17,7 @@ spring:
   main:
     banner-mode: off
   profiles:
-    active: default
+    active: production
 
 server:
   port: 7401
