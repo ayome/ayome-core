@@ -5,10 +5,12 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {ViewsModule} from "./views/views.module";
 import {SocketService} from "./services/socket.service";
+import {SidebarComponent} from './shared/sidebar/sidebar.component';
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        SidebarComponent
     ],
     imports: [
         BrowserModule,
