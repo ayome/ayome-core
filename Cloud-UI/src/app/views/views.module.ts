@@ -25,7 +25,7 @@ const socketConfig: SocketIoConfig = {
     imports: [
         CommonModule,
         SocketIoModule.forRoot(socketConfig),
-        FormsModule
+        FormsModule,
     ]
 })
 

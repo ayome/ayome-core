@@ -1,6 +1,7 @@
 package dev.jonaz.cloud.util.socket
 
 import com.corundumstudio.socketio.SocketIOClient
+import dev.jonaz.cloud.util.session.SessionManager
 
 enum class SocketGuard {
     ALLOW {
@@ -8,7 +9,7 @@ enum class SocketGuard {
     },
 
     ADMIN {
-        override fun validateAuthority(sessionToken: String, client: SocketIOClient): Boolean = false // TODO
+        override fun validateAuthority(sessionToken: String, client: SocketIOClient): Boolean = SessionManager().validate(sessionToken, client)
     };
 
     abstract fun validateAuthority(sessionToken: String, client: SocketIOClient): Boolean

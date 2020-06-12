@@ -17,7 +17,8 @@ class SchemaManager : DatabaseModel() {
         SchemaUtils.createDatabase("data")
         SchemaUtils.create(
             Application,
-            Users
+            User,
+            Proxy
         )
     }
 }

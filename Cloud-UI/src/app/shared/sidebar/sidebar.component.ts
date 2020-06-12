@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
-import anime from "assets/js/anime.min";
 
 @Component({
     selector: 'app-sidebar',
@@ -17,8 +16,6 @@ export class SidebarComponent implements OnInit {
 
     logout() {
         localStorage.removeItem("session")
-        this.router.navigateByUrl("login").then(() => {
-            anime({targets: '.main-sidebar', translateX: 0, duration: 1000, easing: 'spring(0, 20, 30, 0)'});
-        })
+        this.router.navigateByUrl("login")
     }
 }

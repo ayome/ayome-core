@@ -11,11 +11,20 @@ open class DatabaseModel {
         val value = varchar("value", 256)
     }
 
-    object Users : Table("users") {
+    object User : Table("user") {
         val username = text("username")
         val password = text("password")
         val createdAt = datetime("createdAt").default(LocalDateTime.now())
 
         override val primaryKey = PrimaryKey(username, name = "username")
+    }
+
+    object Proxy : Table("proxy") {
+        val name = text("name").default("default")
+        val memory = integer("memory")
+        val port = integer("port")
+        val createdAt = datetime("createdAt").default(LocalDateTime.now())
+
+        override val primaryKey = PrimaryKey(name, name = "name")
     }
 }

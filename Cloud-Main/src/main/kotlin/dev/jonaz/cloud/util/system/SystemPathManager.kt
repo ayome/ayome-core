@@ -1,6 +1,7 @@
 package dev.jonaz.cloud.util.system
 
 import org.springframework.core.env.Environment
+import java.nio.file.Paths
 
 class SystemPathManager {
 
@@ -9,9 +10,10 @@ class SystemPathManager {
     }
 
     fun setSystemPath(env: Environment) {
+        val workDir = Paths.get("").toAbsolutePath().toString()
         current = when (env.activeProfiles[0]) {
-            "dev", "development" -> "build/libs"
-            else -> ""
+            "dev", "development" -> "$workDir/build/libs/"
+            else -> workDir
         }
     }
 }

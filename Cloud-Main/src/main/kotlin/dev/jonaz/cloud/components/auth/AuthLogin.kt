@@ -24,17 +24,17 @@ class AuthLogin(private val client: SocketIOClient) : DatabaseModel() {
         ) return Pair(false, "Invalid credentials")
 
         val user = transaction {
-            Users.select { Users.username eq username }.toList()
+            User.select { User.username eq username }.toList()
         }
 
         val valid = when (user.size) {
-            1 -> passwordEncoder.matches(password, user[0][Users.password])
+            1 -> passwordEncoder.matches(password, user[0][User.password])
             else -> false
         }
 
         return when (valid) {
             true -> {
-                val sessionToken = SessionManager().create(user[0][Users.username], client)
+                val sessionToken = SessionManager().create(user[0][User.username], client)
                 Pair(true, sessionToken)
             }
             else -> Pair(false, "Invalid credentials")

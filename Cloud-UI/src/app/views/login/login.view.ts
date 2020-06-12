@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {SocketService} from "app/services/socket.service";
 import {Router} from "@angular/router";
+import anime from "assets/js/anime.min";
 
 @Component({
     selector: 'app-first',
@@ -21,6 +22,12 @@ export class LoginView implements OnInit {
     }
 
     ngOnInit() {
+        if (localStorage.getItem("session") != null ||
+            localStorage.getItem("session") != undefined) {
+            this.router.navigateByUrl("dashboard")
+        } else {
+            anime({targets: '.main-sidebar', translateX: 0, duration: 1000, easing: 'spring(0, 20, 30, 0)'});
+        }
     }
 
     async login() {
@@ -31,8 +38,6 @@ export class LoginView implements OnInit {
             username: this.username,
             password: this.password
         })
-
-        console.log(result)
 
         if (result.success) {
             localStorage.setItem("session", result.data)

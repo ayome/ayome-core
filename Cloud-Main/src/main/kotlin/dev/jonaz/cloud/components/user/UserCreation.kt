@@ -6,8 +6,6 @@ import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import java.security.SecureRandom
-import java.time.LocalDate
-import java.time.LocalDateTime
 import kotlin.streams.asSequence
 
 class UserCreation : DatabaseModel() {
@@ -17,9 +15,9 @@ class UserCreation : DatabaseModel() {
         else -> {
             val password = generatePassword()
             transaction {
-                Users.insert {
-                    it[Users.username] = username
-                    it[Users.password] = password.first
+                User.insert {
+                    it[User.username] = username
+                    it[User.password] = password.first
                 }
             }
             Pair(true, password.second)
@@ -28,7 +26,7 @@ class UserCreation : DatabaseModel() {
 
     private fun isExist(username: String) = when (
         transaction {
-            Users.select { Users.username eq username }.toList()
+            User.select { User.username eq username }.toList()
         }.size) {
         0 -> false
         else -> true

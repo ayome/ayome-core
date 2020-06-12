@@ -15,7 +15,6 @@ class SystemRuntime {
         val result = mutableListOf<String>()
         try {
             val process = runtime.exec(command)
-            process.waitFor()
 
             val reader = process.inputStream.bufferedReader()
 
