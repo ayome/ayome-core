@@ -1,10 +1,19 @@
 @import "~bootstrap/scss/bootstrap";
 
+$primary-red: #d50c2d;
 $primary-dark: #1c1c1c;
 $primary-light: #ffffff;
+$primary-bg: #141414;
+$primary-gray: #929292;
 
 html, body {
   height: 100%;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 body {
@@ -22,9 +31,56 @@ body {
   color: $primary-light;
 }
 
+.btn-primary, .btn-primary:hover, .btn-primary:focus {
+  background-color: $primary-red !important;
+  outline: 0 none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
 .card-body {
   border-radius: 3px;
   color: $primary-light;
   background-color: $primary-dark;
   box-shadow: 0 1px 1px var(--color-shadow);
+}
+
+.text-gray {
+  color: $primary-gray
+}
+
+.form-control, .form-control:focus, .form-control:disabled {
+  padding: 13px 15px 12px;
+  flex: 1 1 0;
+  min-width: 1%;
+  border: 0;
+  font: inherit;
+  line-height: 1.25;
+  background-color: #181818;
+  color: $primary-light;
+}
+
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.form-control:focus {
+  border-color: $primary-red;
+  box-shadow: 1px 1px 1px $primary-red inset, 1px 1px 1px $primary-red;
+  outline: 0 none;
+}
+
+.text-danger {
+  color: $primary-red !important;
 }

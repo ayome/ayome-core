@@ -10,8 +10,8 @@ export class SocketService {
 
     emit(
         event: string,
-        data: object,
-        session = localStorage.session || null
+        data: object = {},
+        session: string = localStorage.session || null
     ): Promise<object> {
         return new Promise<object>(resolve => {
             this.socket.emit(event, {

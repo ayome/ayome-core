@@ -1,9 +1,17 @@
 <div class="content">
     <div class="row">
-        <div class="col-lg-1"></div>
-        <div class="col-lg-10 mt-5">
-            <div class="card card-body">
-                <p>hello world</p>
+        <div class="col-lg-3"></div>
+        <div class="col-lg-4 mt-5">
+            <div class="card card-body" (keydown.enter)="login()">
+                <label for="username" class="text-gray">Username</label>
+                <input id="username" [(ngModel)]="username" [disabled]="loading" class="form-control form-control-lg mb-2"/>
+
+                <label for="password" class="text-gray">Password</label>
+                <input id="password" [(ngModel)]="password" [disabled]="loading" class="form-control form-control-lg" type="password"/>
+
+                <button class="btn btn-primary mt-3" [disabled]="loading" (click)="login()">Log in</button>
+
+                <p class="text-danger text-center mt-3 mb-0 pb-0" *ngIf="alert.show">{{this.alert.msg}}</p>
             </div>
         </div>
     </div>

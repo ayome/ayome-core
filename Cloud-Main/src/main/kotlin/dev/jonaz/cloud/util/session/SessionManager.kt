@@ -13,8 +13,8 @@ class SessionManager {
 
     private fun deleteSessions(keys: Map<String, SessionData>) = keys.forEach { (t, _) -> storage.keys.remove(t) }
 
-    private fun getById(userid: Int): Map<String, SessionData> {
-        var keys = storage.filter { it.value.user == userid }
+    private fun getById(username: String): Map<String, SessionData> {
+        var keys = storage.filter { it.value.user == username }
         if (keys.keys.size > 1) {
             deleteSessions(keys)
             keys = mapOf()
@@ -34,16 +34,16 @@ class SessionManager {
 
     fun get(token: String?): SessionData? = storage[token]
 
-    fun create(userid: Int, client: SocketIOClient): String {
+    fun create(username: String, client: SocketIOClient): String {
         val newToken = generateToken()
-        val oldSessions = getById(userid)
+        val oldSessions = getById(username)
 
         deleteSessions(oldSessions)
 
-        storage[newToken] = SessionData(userid, newToken, client.handshakeData.address.address)
+        storage[newToken] = SessionData(username, newToken, client.handshakeData.address.address)
 
-        kickAll(userid)
-        client.joinRoom("user-$userid")
+        kickAll(username)
+        client.joinRoom("user-$username")
 
         return newToken
     }
@@ -58,13 +58,13 @@ class SessionManager {
         } else false
     }
 
-    fun destroy(userid: Int) {
-        val keys = getById(userid)
-        kickAll(userid)
+    fun destroy(username: String) {
+        val keys = getById(username)
+        kickAll(username)
         deleteSessions(keys)
     }
 
-    private fun kickAll(userid: Int) = server.getRoomOperations("client-$userid").clients.forEach { client: SocketIOClient ->
-        client.leaveRoom("client-$userid")
+    private fun kickAll(username: String) = server.getRoomOperations("client-$username").clients.forEach { client: SocketIOClient ->
+        client.leaveRoom("client-$username")
     }
 }

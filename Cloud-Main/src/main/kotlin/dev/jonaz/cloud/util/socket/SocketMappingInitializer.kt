@@ -41,7 +41,10 @@ class SocketMappingInitializer {
         val access = method.getAnnotation(SocketMapping::class.java).permission.validateAuthority(sessionToken, client)
 
         if (access) {
-            method.invoke(instance, client, parsedData, ackSender, session)
+            try {
+                method.invoke(instance, client, parsedData, ackSender, session)
+            } catch (e: Exception) {
+            }
         } else {
             ackSender.sendAckData(null)
         }

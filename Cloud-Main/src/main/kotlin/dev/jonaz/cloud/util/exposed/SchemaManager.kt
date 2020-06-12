@@ -16,7 +16,8 @@ class SchemaManager : DatabaseModel() {
     fun createSchema() = transaction {
         SchemaUtils.createDatabase("data")
         SchemaUtils.create(
-            Application
+            Application,
+            Users
         )
     }
 }
