@@ -1,6 +1,8 @@
 package dev.jonaz.cloud.components.manage
 
 import dev.jonaz.cloud.model.DatabaseModel
+import dev.jonaz.cloud.model.docker.DockerInspectModel
+import dev.jonaz.cloud.util.docker.container.DockerContainer
 import dev.jonaz.cloud.util.docker.container.DockerInspect
 import dev.jonaz.cloud.util.system.SystemPathManager
 import dev.jonaz.cloud.util.system.SystemRuntime
@@ -11,7 +13,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 class ProxyManager : DatabaseModel() {
 
-    fun getProxy(name: String): Pair<Boolean, Map<*, *>?> {
+    fun getProxy(name: String): Pair<Boolean, DockerInspectModel?> {
         val proxies = transaction {
             Proxy.select { Proxy.name eq name }.toList()
         }
@@ -20,16 +22,16 @@ class ProxyManager : DatabaseModel() {
             return Pair(false, null)
         }
 
-        val proxy = DockerInspect().getByName("cloud-proxy-$name")
+        val result = DockerInspect().getByName("cloud-proxy-$name")
 
-
-        return Pair(true, proxy.second)
+        return Pair(result.first, result.second)
     }
 
     fun installProxy(name: String, memory: Int, port: Int): Boolean {
-        val path = "${SystemPathManager.current}proxy/$name"
         SystemRuntime.logger.info("Starting installation of proxy named $name")
 
+        val proxyName = "cloud-proxy-$name"
+        val path = "${SystemPathManager.current}proxy/$name"
         DirectoryManager().create(path)
 
         transaction {
@@ -40,8 +42,9 @@ class ProxyManager : DatabaseModel() {
             }
         }
 
-        SystemRuntime().exec("docker run -d --name cloud-proxy-$name -v $path:/server -p $port:25577 itzg/bungeecord")
-        SystemRuntime.logger.info("Installation of proxy $name completed")
+        DockerContainer().delete(proxyName)
+        SystemRuntime().exec("docker run -d --name $proxyName -v $path:/server -p $port:25577 itzg/bungeecord")
+        SystemRuntime.logger.info("Installation of proxy $proxyName completed")
         return true
     }
 }

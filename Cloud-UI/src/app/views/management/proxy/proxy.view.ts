@@ -11,6 +11,7 @@ export class ProxyView implements OnInit {
 
     public loading = false;
     public showProxy = false;
+    public proxy = null
 
     constructor(
         private socket: SocketService,
@@ -19,22 +20,45 @@ export class ProxyView implements OnInit {
     }
 
     async ngOnInit() {
+        await this.getProxyData("default")
+    }
+
+    async getProxyData(name) {
         this.loading = true
-        const proxy: any = await this.proxyService.get("default")
+        const result: any = await this.proxyService.get(name)
         this.loading = false
 
-        console.log(proxy)
-
-        if (proxy.success) {
+        if (result.success) {
             this.showProxy = true
+            this.proxy = result.data
         }
     }
 
     async install(name) {
         this.loading = true
-        const result: any = await this.proxyService.install("default")
+        const result: any = await this.proxyService.install(name)
         this.loading = false
         console.log(result)
+    }
+
+    async stopProxy(name) {
+        this.loading = true
+        const result: any = await this.proxyService.stop(`cloud-proxy-${name}`)
+        if (result.success) {
+            await this.getProxyData(name)
+        } else {
+            alert("Failed to stop proxy")
+        }
+    }
+
+    async startProxy(name) {
+        this.loading = true
+        const result: any = await this.proxyService.start(`cloud-proxy-${name}`)
+        if (result.success) {
+            await this.getProxyData(name)
+        } else {
+            alert("Failed to start proxy")
+        }
     }
 
 }

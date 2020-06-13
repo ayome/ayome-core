@@ -7,8 +7,16 @@
                 <h5 class="text-gray">There are no proxy servers on your system.<br> Do you want to install a new one?</h5>
                 <button class="btn btn-primary mt-5" (click)="install('default')" [disabled]="loading">Start installation</button>
             </div>
-            <div class="card card-body" *ngIf="showProxy">
-                <p>proxy</p>
+            <div class="card card-body row" *ngIf="showProxy">
+                <div class="col-lg-3">
+                    <button type="button" class="btn btn-primary" (click)="stopProxy('default')" *ngIf="proxy.state.status == 'running'" [disabled]="loading">
+                        Stop <span class="badge badge-light ml-3">{{proxy.state.status}}</span>
+                    </button>
+                    <button type="button" class="btn btn-primary" (click)="startProxy('default')" *ngIf="proxy.state.status != 'running'" [disabled]="loading">
+                        Start <span class="badge badge-light ml-3">{{proxy.state.status}}</span>
+                    </button>
+                </div>
+
             </div>
         </div>
     </div>

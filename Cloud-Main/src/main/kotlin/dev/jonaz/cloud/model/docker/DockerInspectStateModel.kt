@@ -23,7 +23,7 @@ data class DockerInspectStateModel(
     @SerializedName("Error")
     val error: String,
     @SerializedName("StartedAt")
-    val startedAt: LocalDateTime,
+    val startedAt: String,
     @SerializedName("FinishedAt")
-    val finishedAt: LocalDateTime
+    val finishedAt: String
 )

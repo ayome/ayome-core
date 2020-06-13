@@ -37,7 +37,7 @@ data class DockerInspectHostConfigModel(
     val extraHosts: Any?,
     @SerializedName("GroupAdd")
     val groupAdd: Any?,
-    @SerializedName("GroupAdd")
+    @SerializedName("IpcMode")
     val ipcMode: String,
     @SerializedName("Cgroup")
     val cGroup: String,

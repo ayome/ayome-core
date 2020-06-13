@@ -24,4 +24,20 @@ export class ProxyService {
             }).then(resolve)
         })
     }
+
+    stop(name) {
+        return new Promise(resolve => {
+            this.socket.emit("/manage/proxy/stop", {
+                name: name
+            }).then(resolve)
+        })
+    }
+
+    start(name) {
+        return new Promise(resolve => {
+            this.socket.emit("/manage/proxy/start", {
+                name: name
+            }).then(resolve)
+        })
+    }
 }
