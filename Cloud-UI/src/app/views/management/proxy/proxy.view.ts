@@ -23,6 +23,8 @@ export class ProxyView implements OnInit {
         const proxy: any = await this.proxyService.get("default")
         this.loading = false
 
+        console.log(proxy)
+
         if (proxy.success) {
             this.showProxy = true
         }

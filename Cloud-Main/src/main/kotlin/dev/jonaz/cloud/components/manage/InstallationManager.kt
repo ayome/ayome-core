@@ -11,7 +11,7 @@ class InstallationManager {
         val success = DirectoryManager().create(path)
 
         return if (success) {
-            SystemRuntime().exec("docker run -v $path --net=\"host\" -p $port:25577 itzg/bungeecord")
+            SystemRuntime().exec("docker run -v $path:/server --net=\"host\" -p $port:25577 itzg/bungeecord")
             Pair(true, "")
         } else {
             Pair(false, "Failed to create proxy. Check the console for more information.")

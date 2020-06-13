@@ -31,6 +31,7 @@ dependencies {
     implementation("org.reflections:reflections:0.9.9")
     implementation("com.corundumstudio.socketio:netty-socketio:1.7.12")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("com.google.code.gson:gson:2.8.6")
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")

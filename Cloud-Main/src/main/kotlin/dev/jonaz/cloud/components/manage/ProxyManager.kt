@@ -1,6 +1,7 @@
 package dev.jonaz.cloud.components.manage
 
 import dev.jonaz.cloud.model.DatabaseModel
+import dev.jonaz.cloud.util.docker.container.DockerInspect
 import dev.jonaz.cloud.util.system.SystemPathManager
 import dev.jonaz.cloud.util.system.SystemRuntime
 import dev.jonaz.cloud.util.system.filesystem.DirectoryManager
@@ -19,7 +20,10 @@ class ProxyManager : DatabaseModel() {
             return Pair(false, null)
         }
 
-        return Pair(true, mapOf("test" to "abc"))
+        val proxy = DockerInspect().getByName("cloud-proxy-$name")
+
+
+        return Pair(true, proxy.second)
     }
 
     fun installProxy(name: String, memory: Int, port: Int): Boolean {
