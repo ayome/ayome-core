@@ -12,7 +12,7 @@ data class DockerInspectModel(
     @SerializedName("Args")
     val args: List<*>,
     @SerializedName("State")
-    val state: Any,
+    val state: DockerInspectStateModel,
     @SerializedName("Image")
     val image: String,
     @SerializedName("ResolvConfPath")
@@ -40,11 +40,11 @@ data class DockerInspectModel(
     @SerializedName("ExecIDs")
     val execIDs: Int?,
     @SerializedName("HostConfig")
-    val hostConfig: Any,
+    val hostConfig: DockerInspectHostConfigModel,
     @SerializedName("GraphDriver")
     val graphDriver: Any,
     @SerializedName("Mounts")
-    val mounts: Any,
+    val mounts: List<DockerInspectMountsModel>,
     @SerializedName("Config")
     val config: Any,
     @SerializedName("NetworkSettings")
