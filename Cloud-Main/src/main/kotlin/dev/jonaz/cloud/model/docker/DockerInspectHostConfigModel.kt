@@ -12,7 +12,7 @@ data class DockerInspectHostConfigModel(
     @SerializedName("NetworkMode")
     val networkMode: String,
     @SerializedName("PortBindings")
-    val portBindings: Any, // TODO
+    val portBindings: Map<*, *>,
     @SerializedName("RestartPolicy")
     val restartPolicy: Any,
     @SerializedName("AutoRemove")
