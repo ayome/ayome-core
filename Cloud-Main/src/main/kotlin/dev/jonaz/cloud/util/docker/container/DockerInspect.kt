@@ -1,6 +1,5 @@
 package dev.jonaz.cloud.util.docker.container
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.gson.Gson
 import dev.jonaz.cloud.model.docker.DockerInspectModel
 import dev.jonaz.cloud.util.system.SystemRuntime
