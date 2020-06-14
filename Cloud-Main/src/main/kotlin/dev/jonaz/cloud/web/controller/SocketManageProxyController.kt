@@ -6,10 +6,13 @@ import com.corundumstudio.socketio.AckRequest
 import com.corundumstudio.socketio.SocketIOClient
 import dev.jonaz.cloud.components.manage.ProxyManager
 import dev.jonaz.cloud.util.docker.container.DockerContainer
+import dev.jonaz.cloud.util.docker.container.DockerLogs
 import dev.jonaz.cloud.util.session.SessionData
 import dev.jonaz.cloud.util.socket.SocketData
 import dev.jonaz.cloud.util.socket.SocketGuard
 import dev.jonaz.cloud.util.socket.SocketMapping
+import dev.jonaz.cloud.util.socket.SocketServer
+import dev.jonaz.cloud.util.system.SystemRuntime
 
 class SocketManageProxyController {
 
@@ -17,7 +20,10 @@ class SocketManageProxyController {
     fun manageProxyGet(client: SocketIOClient, dataMap: Map<*, *>, ackRequest: AckRequest, session: SessionData?) {
         val data = SocketData.map<ManageProxyData>(dataMap)
         val result = ProxyManager().getProxy(data.name)
-        ackRequest.sendAckData(mapOf("success" to result.first, "data" to result.second))
+        val logs = DockerLogs().getLogs("cloud-proxy-${data.name}", 100)
+
+        client.joinRoom("cloud-proxy-${data.name}")
+        ackRequest.sendAckData(mapOf("success" to result.first, "data" to result.second, "log" to logs))
     }
 
     @SocketMapping("/manage/proxy/install", SocketGuard.ADMIN)
@@ -30,14 +36,16 @@ class SocketManageProxyController {
     @SocketMapping("/manage/proxy/stop", SocketGuard.ADMIN)
     fun manageProxyStop(client: SocketIOClient, dataMap: Map<*, *>, ackRequest: AckRequest, session: SessionData?) {
         val data = SocketData.map<ManageProxyData>(dataMap)
-        val success = DockerContainer().stop(data.name)
+        val success = DockerContainer().stop("cloud-proxy-${data.name}")
         ackRequest.sendAckData(mapOf("success" to success))
     }
 
     @SocketMapping("/manage/proxy/start", SocketGuard.ADMIN)
     fun manageProxyStart(client: SocketIOClient, dataMap: Map<*, *>, ackRequest: AckRequest, session: SessionData?) {
         val data = SocketData.map<ManageProxyData>(dataMap)
-        val success = DockerContainer().start(data.name)
+        val success = DockerContainer().start("cloud-proxy-${data.name}")
+
+        DockerLogs().startLoggingToChannel("cloud-proxy-${data.name}", "cloud-proxy-${data.name}", "log-proxy-${data.name}")
         ackRequest.sendAckData(mapOf("success" to success))
     }
 

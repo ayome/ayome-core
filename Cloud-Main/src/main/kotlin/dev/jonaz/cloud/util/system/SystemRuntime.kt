@@ -3,6 +3,7 @@ package dev.jonaz.cloud.util.system
 import dev.jonaz.cloud.util.system.os.SystemCheck
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.io.InputStream
 
 class SystemRuntime {
     companion object {
@@ -27,5 +28,9 @@ class SystemRuntime {
             logger.error("Failed to exec command on your system (${e.message})")
         }
         return result
+    }
+
+    fun execRaw(command: String): Process {
+        return runtime.exec(command)
     }
 }

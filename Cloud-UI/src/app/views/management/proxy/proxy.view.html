@@ -16,7 +16,11 @@
                         Start <span class="badge badge-light ml-3">{{proxy.state.status}}</span>
                     </button>
                 </div>
-
+            </div>
+            <div class="card card-body row console" *ngIf="showProxy">
+                <div class="col-lg-12">
+                    <p class="console-item text-gray" *ngFor="let i of consoleLog">{{ i }}</p>
+                </div>
             </div>
         </div>
     </div>

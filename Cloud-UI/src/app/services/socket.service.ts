@@ -20,4 +20,8 @@ export class SocketService {
             }, resolve)
         })
     }
+
+    listen(event, callback) {
+        this.socket.on(event, callback)
+    }
 }

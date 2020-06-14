@@ -11,7 +11,8 @@ export class ProxyView implements OnInit {
 
     public loading = false;
     public showProxy = false;
-    public proxy = null
+    public proxy = null;
+    public consoleLog = [];
 
     constructor(
         private socket: SocketService,
@@ -20,6 +21,7 @@ export class ProxyView implements OnInit {
     }
 
     async ngOnInit() {
+        await this.setLogListener("default")
         await this.getProxyData("default")
     }
 
@@ -31,6 +33,10 @@ export class ProxyView implements OnInit {
         if (result.success) {
             this.showProxy = true
             this.proxy = result.data
+            this.consoleLog = []
+            result.log.forEach(s => {
+                this.consoleLog.push(s)
+            })
         }
     }
 
@@ -43,7 +49,7 @@ export class ProxyView implements OnInit {
 
     async stopProxy(name) {
         this.loading = true
-        const result: any = await this.proxyService.stop(`cloud-proxy-${name}`)
+        const result: any = await this.proxyService.stop(name)
         if (result.success) {
             await this.getProxyData(name)
         } else {
@@ -53,7 +59,7 @@ export class ProxyView implements OnInit {
 
     async startProxy(name) {
         this.loading = true
-        const result: any = await this.proxyService.start(`cloud-proxy-${name}`)
+        const result: any = await this.proxyService.start(name)
         if (result.success) {
             await this.getProxyData(name)
         } else {
@@ -61,4 +67,11 @@ export class ProxyView implements OnInit {
         }
     }
 
+    async setLogListener(name) {
+        this.socket.listen(`log-proxy-${name}`, s => {
+            this.consoleLog.push(s)
+            const e = document.getElementsByClassName("console")[0]
+            e.scrollTo(0, e.scrollHeight)
+        })
+    }
 }
