@@ -3,22 +3,43 @@ import {NgModule} from '@angular/core';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {ViewsModule} from "./views/views.module";
 import {SocketService} from "./services/socket.service";
 import {SidebarComponent} from './shared/sidebar/sidebar.component';
+import {ModalComponent} from "./shared/modal/modal.component";
+import {LoadingComponent} from "./components/loading/loading.component";
+import {SocketIoConfig, SocketIoModule} from "ngx-socket-io";
+import {environment} from "environments/environment";
+import {LoginView} from "./views/login/login.view";
+import {DashboardView} from "./views/dashboard/dashboard.view";
+import {ProxyView} from "./views/management/proxy/proxy.view";
+import {FormsModule} from "@angular/forms";
+
+const socketConfig: SocketIoConfig = {
+    url: environment.socketHost,
+    options: {}
+}
 
 @NgModule({
     declarations: [
         AppComponent,
-        SidebarComponent
+        SidebarComponent,
+        ModalComponent,
+        LoadingComponent,
+        LoginView,
+        DashboardView,
+        ProxyView
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
-        ViewsModule
+        SocketIoModule.forRoot(socketConfig),
+        FormsModule
     ],
     providers: [
         SocketService
+    ],
+    exports: [
+        LoadingComponent
     ],
     bootstrap: [AppComponent]
 })

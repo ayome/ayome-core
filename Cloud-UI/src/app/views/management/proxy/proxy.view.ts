@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {SocketService} from "app/services/socket.service";
 import {ProxyService} from "../../../services/manage/proxy.service";
+import {AlertService} from "../../../services/alert.service";
 
 @Component({
     selector: 'app-first',
@@ -8,15 +9,17 @@ import {ProxyService} from "../../../services/manage/proxy.service";
     styleUrls: ['./proxy.view.scss']
 })
 export class ProxyView implements OnInit {
+    public loading = true
 
-    public loading = false;
+    public disable = false;
     public showProxy = false;
     public proxy = null;
     public consoleLog = [];
 
     constructor(
         private socket: SocketService,
-        private proxyService: ProxyService
+        private proxyService: ProxyService,
+        private alertService: AlertService
     ) {
     }
 
@@ -26,8 +29,9 @@ export class ProxyView implements OnInit {
     }
 
     async getProxyData(name) {
-        this.loading = true
+        this.disable = true
         const result: any = await this.proxyService.get(name)
+        this.disable = false
         this.loading = false
 
         if (result.success) {
@@ -42,14 +46,14 @@ export class ProxyView implements OnInit {
     }
 
     async install(name) {
-        this.loading = true
+        this.disable = true
         const result: any = await this.proxyService.install(name)
-        this.loading = false
+        this.disable = false
         console.log(result)
     }
 
     async stopProxy(name) {
-        this.loading = true
+        this.disable = true
         const result: any = await this.proxyService.stop(name)
         if (result.success) {
             await this.getProxyData(name)
@@ -59,7 +63,7 @@ export class ProxyView implements OnInit {
     }
 
     async startProxy(name) {
-        this.loading = true
+        this.disable = true
         const result: any = await this.proxyService.start(name)
         if (result.success) {
             await this.getProxyData(name)

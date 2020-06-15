@@ -1,0 +1,7 @@
+<div class="modal" id="modal" *ngIf="!hidden">
+    <div class="modal-card">
+        <div class="modal-text">{{ content }}</div>
+        <button class="btn-modal" (click)="runCallback()" [disabled]="disabled">{{ buttonText }}</button>
+    </div>
+</div>
+
