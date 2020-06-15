@@ -30,7 +30,7 @@ class ApplicationStartupListener : InitializingBean {
         NetworkSetup().setupNetwork()
 
         SocketServer().startAsync()
-        SocketMappingInitializer()
+        SocketMappingInitializer().setMapping()
 
         DatabaseInitializer().connect()
         SchemaManager().createSchema()

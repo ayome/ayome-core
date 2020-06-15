@@ -37,6 +37,7 @@ export class ProxyView implements OnInit {
             result.log.forEach(s => {
                 this.consoleLog.push(s)
             })
+            this.scrollDown()
         }
     }
 
@@ -70,8 +71,12 @@ export class ProxyView implements OnInit {
     async setLogListener(name) {
         this.socket.listen(`log-proxy-${name}`, s => {
             this.consoleLog.push(s)
-            const e = document.getElementsByClassName("console")[0]
-            e.scrollTo(0, e.scrollHeight)
+            this.scrollDown()
         })
+    }
+
+    scrollDown() {
+        const e = document.getElementsByClassName("console")[0]
+        e.scrollTo(0, e.scrollHeight)
     }
 }

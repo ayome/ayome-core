@@ -3,50 +3,70 @@ package dev.jonaz.cloud.util.socket
 import com.corundumstudio.socketio.AckRequest
 import com.corundumstudio.socketio.SocketIOClient
 import dev.jonaz.cloud.Application
+import dev.jonaz.cloud.util.session.SessionData
 import dev.jonaz.cloud.util.session.SessionManager
 import org.reflections.Reflections
 import org.reflections.scanners.MethodAnnotationsScanner
 import java.lang.reflect.Method
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.reflections.scanners.TypeAnnotationsScanner
 
 class SocketMappingInitializer {
-    private val server = SocketServer.server
 
-    init {
-        val reflections = Reflections(Application::class.java, MethodAnnotationsScanner())
-        val annotated = reflections.getMethodsAnnotatedWith(SocketMapping::class.java)
+    fun setMapping() {
+        val reflections = Reflections(Application::class.java)
+        val annotated = reflections.getTypesAnnotatedWith(SocketMapping::class.java)
 
-        for (method in annotated) {
-            val instance = method.declaringClass.getDeclaredConstructor().newInstance()
-            val path = method.getAnnotation(SocketMapping::class.java).path
+        annotated.forEach { t ->
+            val permission = t.getAnnotation(SocketMapping::class.java).permission
+            val path = t.getAnnotation(SocketMapping::class.java).path
+            val instance = t.getDeclaredConstructor().newInstance()
 
-            server.addEventListener(path, Map::class.java)
-            { client, fullData, ackRequest -> launchMapping(method, instance, client, fullData, ackRequest) }
+            SocketServer.server.addEventListener(path, Map::class.java)
+            { client, fullData, ackRequest -> launchMapping(t, instance, permission, client, fullData, ackRequest) }
         }
     }
 
     private fun launchMapping(
-        method: Method,
+        annotatedClass: Class<*>,
         instance: Any,
+        permission: SocketGuard,
         client: SocketIOClient,
         fullData: Map<*, *>?,
-        ackSender: AckRequest
+        ackRequest: AckRequest
     ) = GlobalScope.launch {
-
-        val sessionToken = fullData?.getOrDefault("session", null).toString()
+        val sessionToken = fullData?.get("session").toString()
         val session = SessionManager().get(sessionToken)
-        val parsedData = fullData?.getOrDefault("data", emptyMap<Any, Any>())
+        val access = permission.validateAuthority(sessionToken, client)
 
-        val access = method.getAnnotation(SocketMapping::class.java).permission.validateAuthority(sessionToken, client)
+        val parsedData: Map<*, *> = try {
+            fullData?.get("data") as Map<*, *>
+        } catch (e: Exception) {
+            mapOf<Any, Any>()
+        }
 
-        if (access) {
-            try {
-                method.invoke(instance, client, parsedData, ackSender, session)
-            } catch (e: Exception) {
-            }
-        } else {
-            ackSender.sendAckData(null)
+        if (!access) {
+            return@launch
+        }
+
+        try {
+            annotatedClass.getMethod(
+                SocketController::onEvent.name,
+                SocketIOClient::class.java,
+                Map::class.java,
+                AckRequest::class.java,
+                SessionData::class.java
+            ).invoke(
+                instance,
+                client,
+                parsedData,
+                ackRequest,
+                session
+            )
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return@launch
         }
     }
 }
