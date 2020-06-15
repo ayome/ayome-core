@@ -15,8 +15,8 @@ export class AlertService {
     constructor() {
     }
 
-    show(message, buttonName, callback) {
-        this.showModal.next([message, buttonName, callback])
+    show(object) {
+        this.showModal.next(object)
     }
 
     hide() {

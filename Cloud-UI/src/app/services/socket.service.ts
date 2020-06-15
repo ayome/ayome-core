@@ -22,6 +22,7 @@ export class SocketService {
     }
 
     listen(event, callback) {
+        this.socket.removeListener(event)
         this.socket.on(event, callback)
     }
 }

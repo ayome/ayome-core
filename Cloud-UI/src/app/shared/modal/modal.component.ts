@@ -8,9 +8,10 @@ import {AlertService} from "app/services/alert.service";
 })
 export class ModalComponent implements OnInit {
     public hidden = true
+    public loading = false
     public disabled = false
     public content
-    public buttonText
+    public btnText
     public callback
 
     constructor(private alertService: AlertService) {
@@ -18,19 +19,16 @@ export class ModalComponent implements OnInit {
 
     ngOnInit() {
         this.alertService.showObservable.subscribe((res: any) => {
-            this.setModal(res[0], res[1], res[2])
+            this.content = res.content
+            this.loading = res.loading
+            this.btnText = res.btnText
+            this.callback = res.callback
             this.disabled = false
             this.hidden = false
         })
         this.alertService.hideObservable.subscribe(() => {
-           this.hidden = true
+            this.hidden = true
         })
-    }
-
-    setModal(content, buttonText, callback) {
-        this.content = content
-        this.buttonText = buttonText
-        this.callback = callback
     }
 
     runCallback() {

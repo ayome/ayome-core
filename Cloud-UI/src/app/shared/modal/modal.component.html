@@ -1,7 +1,11 @@
 <div class="modal" id="modal" *ngIf="!hidden">
     <div class="modal-card">
-        <div class="modal-text">{{ content }}</div>
-        <button class="btn-modal" (click)="runCallback()" [disabled]="disabled">{{ buttonText }}</button>
+        <div class="modal-text">
+            <app-loading-animation *ngIf="loading"></app-loading-animation>
+            <div style="height: 10px" *ngIf="loading"></div>
+            {{ content }}
+        </div>
+        <button class="btn-modal" (click)="runCallback()" [disabled]="disabled">{{ btnText }}</button>
     </div>
 </div>
 
