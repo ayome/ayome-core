@@ -2,6 +2,8 @@ package dev.jonaz.cloud.util.docker.container
 
 import dev.jonaz.cloud.util.socket.SocketServer
 import dev.jonaz.cloud.util.system.SystemRuntime
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class DockerLogs {
 
@@ -25,7 +27,7 @@ class DockerLogs {
         return result
     }
 
-    fun startLoggingToChannel(containerName: String, channelName: String, eventName: String) {
+    fun startLoggingToChannel(containerName: String, channelName: String, eventName: String) = GlobalScope.launch {
         val inputStream = SystemRuntime().execRaw("docker logs -f $containerName").inputStream
         val bufferedReader = inputStream.bufferedReader()
 
