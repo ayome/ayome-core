@@ -11,7 +11,7 @@ class DockerInspect {
         val inspection = SystemRuntime().exec("docker inspect $name")
         return try {
             var objectString = ""
-            inspection.forEach { t -> objectString += t }
+            inspection.first.forEach { t -> objectString += t }
 
             val objects = Gson().fromJson(objectString, List::class.java)
 

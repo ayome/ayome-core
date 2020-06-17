@@ -13,7 +13,7 @@ class SystemPathManager {
         val workDir = Paths.get("").toAbsolutePath().toString()
         current = when (env.activeProfiles[0]) {
             "dev", "development" -> "$workDir/build/libs/"
-            else -> workDir
+            else -> "$workDir/"
         }
     }
 }

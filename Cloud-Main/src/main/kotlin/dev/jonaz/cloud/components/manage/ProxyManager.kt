@@ -4,9 +4,11 @@ import dev.jonaz.cloud.model.DatabaseModel
 import dev.jonaz.cloud.model.docker.DockerInspectModel
 import dev.jonaz.cloud.util.docker.container.DockerContainer
 import dev.jonaz.cloud.util.docker.container.DockerInspect
+import dev.jonaz.cloud.util.system.ErrorLogging
 import dev.jonaz.cloud.util.system.SystemPathManager
 import dev.jonaz.cloud.util.system.SystemRuntime
 import dev.jonaz.cloud.util.system.filesystem.DirectoryManager
+import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -35,6 +37,7 @@ class ProxyManager : DatabaseModel() {
         DirectoryManager().create(path)
 
         transaction {
+            Proxy.deleteWhere { Proxy.name eq name }
             Proxy.insert {
                 it[Proxy.name] = name
                 it[Proxy.memory] = memory
@@ -43,7 +46,14 @@ class ProxyManager : DatabaseModel() {
         }
 
         DockerContainer().delete(proxyName)
-        SystemRuntime().exec("docker run -d --name $proxyName -v $path:/server -p $port:25577 itzg/bungeecord")
+        val result = SystemRuntime().exec("docker run -d --name $proxyName -v \"$path\":/server -p $port:25577 itzg/bungeecord")
+
+        if(result.second.isNotEmpty()) {
+            SystemRuntime.logger.error("Installation of proxy $proxyName failed")
+            ErrorLogging().append(result.second.joinToString("\n"))
+            return false
+        }
+
         SystemRuntime.logger.info("Installation of proxy $proxyName completed")
         return true
     }

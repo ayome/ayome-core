@@ -141,6 +141,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "cloud-ui"
+    }
+  },
+  "defaultProject": "cloud-ui",
+  "cli": {
+    "analytics": "6d17a6f1-7c35-4c7e-a1a0-135af396a5b4"
+  }
 }

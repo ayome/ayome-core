@@ -8,6 +8,7 @@ import dev.jonaz.cloud.util.exposed.DatabaseInitializer
 import dev.jonaz.cloud.util.exposed.SchemaManager
 import dev.jonaz.cloud.util.socket.SocketMappingInitializer
 import dev.jonaz.cloud.util.socket.SocketServer
+import dev.jonaz.cloud.util.system.ErrorLogging
 import dev.jonaz.cloud.util.system.SystemPathManager
 import dev.jonaz.cloud.util.system.SystemRuntime
 import org.springframework.beans.factory.InitializingBean
@@ -24,6 +25,7 @@ class ApplicationStartupListener : InitializingBean {
     override fun afterPropertiesSet() {
         SystemSetup().isCompatible()
         SystemPathManager().setSystemPath(env)
+        ErrorLogging().createFile()
 
         StructureSetup().createDirectories()
 

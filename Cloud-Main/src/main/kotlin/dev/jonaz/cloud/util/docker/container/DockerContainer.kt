@@ -7,7 +7,7 @@ class DockerContainer {
     fun start(name: String): Boolean {
         SystemRuntime.logger.info("Starting $name")
 
-        val started = SystemRuntime().exec("docker start $name").toTypedArray()
+        val started = SystemRuntime().exec("docker start $name").first.toTypedArray()
         val success = started.isNotEmpty() && started.get(0).equals(name)
 
         if (success) SystemRuntime.logger.info("Successfully started $name")
@@ -19,7 +19,7 @@ class DockerContainer {
     fun stop(name: String): Boolean {
         SystemRuntime.logger.info("Stopping $name")
 
-        val stopped = SystemRuntime().exec("docker stop $name").toTypedArray()
+        val stopped = SystemRuntime().exec("docker stop $name").first.toTypedArray()
         val success = stopped.isNotEmpty() && stopped.get(0).equals(name)
 
         if (success) SystemRuntime.logger.info("Successfully stopped $name")
@@ -29,7 +29,7 @@ class DockerContainer {
     }
 
     fun delete(name: String): Boolean {
-        val deleted = SystemRuntime().exec("docker rm -f $name").toTypedArray()
+        val deleted = SystemRuntime().exec("docker rm -f $name").first.toTypedArray()
 
         return deleted.isNotEmpty() && deleted.get(0).equals(name)
     }

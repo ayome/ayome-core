@@ -6,7 +6,7 @@ import kotlin.system.exitProcess
 
 class DockerSetup {
 
-    fun isInstalled(): Boolean = when (SystemRuntime().exec("docker info")[0]) {
+    fun isInstalled(): Boolean = when (SystemRuntime().exec("docker info").first[0]) {
         "Client:" -> true
         else -> false
     }

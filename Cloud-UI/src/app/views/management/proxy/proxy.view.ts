@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {SocketService} from "app/services/socket.service";
+import {SocketService} from "../../../services/socket.service";
 import {ProxyService} from "../../../services/manage/proxy.service";
 import {AlertService} from "../../../services/alert.service";
 
@@ -66,7 +66,7 @@ export class ProxyView implements OnInit {
             await this.getProxyData("default")
         } else {
             this.alertService.show({
-                content: "Failed to install proxy",
+                content: "Failed to install proxy. \nOpen error.log to get more information.",
                 btnText: "hide",
                 loading: false,
                 callback: () => {
