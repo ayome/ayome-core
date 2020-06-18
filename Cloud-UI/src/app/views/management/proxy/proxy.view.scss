@@ -1,7 +1,7 @@
 .console {
+  height: 500px;
   overflow-y: scroll;
   overflow-x: hidden;
-  height: 500px;
   -webkit-touch-callout: default !important;
   -webkit-user-select: text !important;
   -moz-user-select: text !important;
@@ -13,6 +13,11 @@
   font-size: 0.8em;
   line-height: 1px;
   cursor: default;
+}
+
+.console-active {
+  border: 1px solid #d50c2d;
+  border-radius: 5px;
 }
 
 .stats {

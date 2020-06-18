@@ -50,8 +50,10 @@ export class ProxyView implements OnInit {
 
             setTimeout(() => {
                 if (result.data.state.status == "running") {
-                    anime({targets: '.console', translateY: 260, duration: 1000, easing: 'spring(0, 20, 30, 0)'})
+                    this.console.nativeElement.classList.add("console-active")
+                    anime({targets: '.console', translateY: 255, duration: 1000, easing: 'spring(0, 20, 30, 0)'})
                 } else {
+                    this.console.nativeElement.classList.remove("console-active")
                     anime({targets: '.console', translateY: 0, duration: 1000, easing: 'spring(0, 20, 30, 0)'})
                 }
             }, 500)
