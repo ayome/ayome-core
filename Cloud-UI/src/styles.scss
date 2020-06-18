@@ -88,3 +88,12 @@ input[type="color"]:focus,
 .mouse-pointer {
   cursor: pointer;
 }
+
+.progress {
+  background-color: $primary-bg;
+}
+
+.progress-bar {
+  color: $primary-dark;
+  background-color: $primary-gray;
+}

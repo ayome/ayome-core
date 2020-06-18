@@ -2,6 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {SocketService} from "../../../services/socket.service";
 import {ProxyService} from "../../../services/manage/proxy.service";
 import {AlertService} from "../../../services/alert.service";
+import anime from "assets/js/anime.min";
 
 @Component({
     selector: 'app-first',
@@ -11,12 +12,13 @@ import {AlertService} from "../../../services/alert.service";
 export class ProxyView implements OnInit {
     public loading = true
 
-    public disable = false;
-    public showProxy = false;
     public proxy = null;
     public consoleLog = [];
+    public disable = false;
+    public showProxy = false;
 
     @ViewChild("console") private console: ElementRef
+    @ViewChild("statsCPU") private statsCPU: ElementRef
 
     constructor(
         private socket: SocketService,
@@ -43,8 +45,16 @@ export class ProxyView implements OnInit {
                 this.consoleLog.push(s)
             })
             this.scrollDown()
-            this.setLogListener("default")
-            this.setStatsListener("default")
+            this.setLogListener()
+            this.setStatsListener()
+
+            setTimeout(() => {
+                if (result.data.state.status == "running") {
+                    anime({targets: '.console', translateY: 260, duration: 1000, easing: 'spring(0, 20, 30, 0)'})
+                } else {
+                    anime({targets: '.console', translateY: 0, duration: 1000, easing: 'spring(0, 20, 30, 0)'})
+                }
+            }, 500)
         }
     }
 
@@ -106,7 +116,10 @@ export class ProxyView implements OnInit {
 
     setStatsListener() {
         this.socket.listen("updateStats", s => {
-            console.log(s)
+            const data = JSON.parse(s)
+            //console.log(data)
+            this.statsCPU.nativeElement.style.width = data.CPUPerc
+            this.statsCPU.nativeElement.innerText = data.CPUPerc
         })
     }
 

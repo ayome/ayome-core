@@ -1,5 +1,6 @@
 .console {
   overflow-y: scroll;
+  overflow-x: hidden;
   height: 500px;
   -webkit-touch-callout: default !important;
   -webkit-user-select: text !important;
@@ -12,4 +13,11 @@
   font-size: 0.8em;
   line-height: 1px;
   cursor: default;
+}
+
+.stats {
+  position: absolute;
+  overflow: hidden;
+  height: 250px;
+  width: 100%;
 }
