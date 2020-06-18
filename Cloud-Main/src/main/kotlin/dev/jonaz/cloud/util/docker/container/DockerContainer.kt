@@ -10,7 +10,10 @@ class DockerContainer {
         val started = SystemRuntime().exec("docker start $name").first.toTypedArray()
         val success = started.isNotEmpty() && started.get(0).equals(name)
 
-        if (success) SystemRuntime.logger.info("Successfully started $name")
+        if (success) {
+            SystemRuntime.logger.info("Successfully started $name")
+            DockerStats().startStreamToChannel(name)
+        }
         else SystemRuntime.logger.error("Failed to start $name")
 
         return success

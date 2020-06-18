@@ -4,6 +4,7 @@ import com.corundumstudio.socketio.AckRequest
 import com.corundumstudio.socketio.SocketIOClient
 import dev.jonaz.cloud.components.manage.ProxyManager
 import dev.jonaz.cloud.util.docker.container.DockerLogs
+import dev.jonaz.cloud.util.docker.container.DockerStats
 import dev.jonaz.cloud.util.session.SessionData
 import dev.jonaz.cloud.util.socket.SocketController
 import dev.jonaz.cloud.util.socket.SocketData
@@ -22,7 +23,9 @@ class ManageProxyInstallController : SocketController {
             "cloud-proxy-${data.name}", // Container name
             "cloud-proxy-${data.name}", // Channel name
             "log-proxy-${data.name}" // Event name
-        )
+        ).also {
+            DockerStats().startStreamToChannel("cloud-proxy-${data.name}")
+        }
 
         ackRequest.sendAckData(
             mapOf("success" to result)

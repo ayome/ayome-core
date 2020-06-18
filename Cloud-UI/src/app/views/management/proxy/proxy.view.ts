@@ -44,6 +44,7 @@ export class ProxyView implements OnInit {
             })
             this.scrollDown()
             this.setLogListener("default")
+            this.setStatsListener("default")
         }
     }
 
@@ -96,12 +97,16 @@ export class ProxyView implements OnInit {
         }
     }
 
-    setLogListener(name) {
-        console.log("set event listener")
-        this.socket.listen(`log-proxy-${name}`, s => {
-            console.log("got event")
+    setLogListener() {
+        this.socket.listen("updateLog", s => {
             this.consoleLog.push(s)
             this.scrollDown()
+        })
+    }
+
+    setStatsListener() {
+        this.socket.listen("updateStats", s => {
+            console.log(s)
         })
     }
 

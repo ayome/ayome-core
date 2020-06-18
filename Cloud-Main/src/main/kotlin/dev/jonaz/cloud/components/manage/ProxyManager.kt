@@ -4,6 +4,7 @@ import dev.jonaz.cloud.model.DatabaseModel
 import dev.jonaz.cloud.model.docker.DockerInspectModel
 import dev.jonaz.cloud.util.docker.container.DockerContainer
 import dev.jonaz.cloud.util.docker.container.DockerInspect
+import dev.jonaz.cloud.util.docker.container.DockerStats
 import dev.jonaz.cloud.util.system.ErrorLogging
 import dev.jonaz.cloud.util.system.SystemPathManager
 import dev.jonaz.cloud.util.system.SystemRuntime

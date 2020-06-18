@@ -15,14 +15,11 @@ class ManageProxyStartController : SocketController {
 
     override fun onEvent(client: SocketIOClient, dataMap: Map<*, *>, ackRequest: AckRequest, session: SessionData?) {
         val data = SocketData.map<Model>(dataMap)
+        val name = "cloud-proxy-${data.name}"
 
-        val success = DockerContainer().start("cloud-proxy-${data.name}")
+        val success = DockerContainer().start(name)
 
-        DockerLogs().startLoggingToChannel(
-            "cloud-proxy-${data.name}", // Container name
-            "cloud-proxy-${data.name}", // Channel name
-            "log-proxy-${data.name}" // Event name
-        )
+        DockerLogs().startLoggingToChannel(name, name, "updateLog")
 
         ackRequest.sendAckData(
             mapOf("success" to success)
