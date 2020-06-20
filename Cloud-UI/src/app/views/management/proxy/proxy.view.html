@@ -13,17 +13,21 @@
                 <h5 class="text-gray">There are no proxy servers on your system.<br> Do you want to install a new one?</h5>
                 <button class="btn btn-primary mt-5" (click)="install('default')" [disabled]="disable">Start installation</button>
             </div>
-            <div class="card card-body row" *ngIf="showProxy && proxy != null">
-                <div class="col-lg-3">
-                    <button type="button" class="btn btn-primary" (click)="stopProxy('default')" *ngIf="proxy.state.status == 'running'" [disabled]="disable">
-                        Stop <span class="badge badge-light ml-3">{{proxy.state.status}}</span>
-                    </button>
-                    <button type="button" class="btn btn-primary" (click)="startProxy('default')" *ngIf="proxy.state.status != 'running'" [disabled]="disable">
-                        Start <span class="badge badge-light ml-3">{{proxy.state.status}}</span>
-                    </button>
+            <div class="card card-body p-2 row" *ngIf="showProxy && proxy != null">
+                <div class="col-lg-12 pr-0 row">
+                    <div class="col-lg-6">
+                        <button type="button" class="btn btn-primary" (click)="stopProxy('default')" *ngIf="proxy.state.status == 'running'" [disabled]="disable"><i class="fas fa-toggle-on"></i> Stop</button>
+                        <button type="button" class="btn btn-primary" (click)="startProxy('default')" *ngIf="proxy.state.status != 'running'" [disabled]="disable"><i class="fas fa-toggle-off"></i> Start</button>
+                    </div>
+                    <div class="col-lg-4">
+
+                    </div>
+                    <div class="col-lg-2 pr-0 text-right">
+                        <p [className]="proxy.state.status == 'running' ? 'text-success status-text' : 'text-danger status-text'">{{ proxy.state.status | titlecase }}</p>
+                    </div>
                 </div>
             </div>
-            <div class="card card-body row stats mt-1" *ngIf="showProxy">
+            <div class="row card card-body stats mt-1" *ngIf="showProxy">
                 <div class="col-lg-12 row">
                     <div class="col-lg-8 row">
                         <div class="col-lg-6 text-gray">
