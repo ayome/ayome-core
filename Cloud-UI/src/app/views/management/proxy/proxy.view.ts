@@ -28,6 +28,9 @@ export class ProxyView implements OnInit {
 
     public textCPU = ""
     public textMemory = ""
+    public textBlockIO = ""
+    public textNetIO = ""
+    public textPids = ""
 
     constructor(
         private socket: SocketService,
@@ -133,10 +136,14 @@ export class ProxyView implements OnInit {
             const mem = Math.round(data.MemPerc.replace("%", ""))
 
             this.textCPU = data.CPUPerc
-            this.statsCPU.nativeElement.style.width = data.CPUPerc
-
             this.textMemory = data.MemUsage
+            this.textBlockIO = data.BlockIO
+            this.textNetIO = data.NetIO
+            this.textPids = data.PIDs
+
+            this.statsCPU.nativeElement.style.width = data.CPUPerc
             this.statsMemory = data.MemPerc
+
 
             this.updateChart(cpu, mem)
         })
