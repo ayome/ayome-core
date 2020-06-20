@@ -13,6 +13,7 @@ import {LoginView} from "./views/login/login.view";
 import {DashboardView} from "./views/dashboard/dashboard.view";
 import {ProxyView} from "./views/management/proxy/proxy.view";
 import {FormsModule} from "@angular/forms";
+import {NgApexchartsModule} from "ng-apexcharts";
 
 const socketConfig: SocketIoConfig = {
     url: environment.socketHost,
@@ -33,7 +34,8 @@ const socketConfig: SocketIoConfig = {
         BrowserModule,
         AppRoutingModule,
         SocketIoModule.forRoot(socketConfig),
-        FormsModule
+        FormsModule,
+        NgApexchartsModule
     ],
     providers: [
         SocketService

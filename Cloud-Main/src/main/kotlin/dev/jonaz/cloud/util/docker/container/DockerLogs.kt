@@ -8,27 +8,22 @@ import kotlinx.coroutines.launch
 class DockerLogs {
 
     fun getLogs(containerName: String, limit: Int): List<String> {
-        val process = SystemRuntime().execRaw("docker logs $containerName")
+        val process = SystemRuntime().execRaw("docker logs --tail $limit $containerName")
         val bufferedReader = process.inputStream.bufferedReader()
 
-        var row = 0
         val result = mutableListOf<String>()
         bufferedReader.forEachLine { s ->
             when {
                 s.isEmpty() -> return@forEachLine
                 s.equals(">") -> return@forEachLine
-                limit < row -> return@forEachLine
-                else -> {
-                    row += 1
-                    result.add(s)
-                }
+                else -> result.add(s)
             }
         }
         return result
     }
 
     fun startLoggingToChannel(containerName: String, channelName: String, eventName: String) = GlobalScope.launch {
-        val inputStream = SystemRuntime().execRaw("docker logs -f $containerName").inputStream
+        val inputStream = SystemRuntime().execRaw("docker logs -f --tail 100 $containerName").inputStream
         val bufferedReader = inputStream.bufferedReader()
 
         bufferedReader.forEachLine line@{ s ->

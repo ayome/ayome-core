@@ -2,6 +2,8 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {SocketService} from "../../../services/socket.service";
 import {ProxyService} from "../../../services/manage/proxy.service";
 import {AlertService} from "../../../services/alert.service";
+import {chart} from "../../../components/charts/proxy.chart";
+import {ChartComponent} from "ng-apexcharts";
 import anime from "assets/js/anime.min";
 
 @Component({
@@ -12,13 +14,20 @@ import anime from "assets/js/anime.min";
 export class ProxyView implements OnInit {
     public loading = true
 
+    public chartData = chart
+
     public proxy = null;
     public consoleLog = [];
     public disable = false;
     public showProxy = false;
 
+    @ViewChild("chart") private chart: ChartComponent
     @ViewChild("console") private console: ElementRef
     @ViewChild("statsCPU") private statsCPU: ElementRef
+    @ViewChild("statsMemory") private statsMemory: ElementRef
+
+    public textCPU = ""
+    public textMemory = ""
 
     constructor(
         private socket: SocketService,
@@ -56,7 +65,7 @@ export class ProxyView implements OnInit {
                     this.console.nativeElement.classList.remove("console-active")
                     anime({targets: '.console', translateY: 0, duration: 1000, easing: 'spring(0, 20, 30, 0)'})
                 }
-            }, 500)
+            }, 100)
         }
     }
 
@@ -119,10 +128,28 @@ export class ProxyView implements OnInit {
     setStatsListener() {
         this.socket.listen("updateStats", s => {
             const data = JSON.parse(s)
-            //console.log(data)
+
+            const cpu = Math.round(data.CPUPerc.replace("%", ""))
+            const mem = Math.round(data.MemPerc.replace("%", ""))
+
+            this.textCPU = data.CPUPerc
             this.statsCPU.nativeElement.style.width = data.CPUPerc
-            this.statsCPU.nativeElement.innerText = data.CPUPerc
+
+            this.textMemory = data.MemUsage
+            this.statsMemory = data.MemPerc
+
+            this.updateChart(cpu, mem)
         })
+    }
+
+    updateChart(cpu, memory) {
+        let series = this.chartData.series
+        series[0].data.shift()
+        series[1].data.shift()
+
+        series[0].data.push(cpu)
+        series[1].data.push(memory)
+        this.chart.updateSeries(series)
     }
 
     scrollDown() {
