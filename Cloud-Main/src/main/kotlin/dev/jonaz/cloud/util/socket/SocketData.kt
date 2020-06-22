@@ -6,7 +6,7 @@ import com.google.gson.reflect.TypeToken
 object SocketData {
     inline fun <reified T> Gson.fromJson(json: String): T = fromJson(json, object : TypeToken<T>() {}.type)
 
-    inline fun <reified T> map(data: Map<*, *>): T {
+    inline fun <reified T> map(data: Any): T {
         val jsonData = Gson().toJson(data)
         return Gson().fromJson(jsonData)
     }
