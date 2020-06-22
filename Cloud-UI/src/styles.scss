@@ -38,6 +38,13 @@ body {
   border: none !important;
 }
 
+.btn-invisible, .btn-invisible:hover, .btn-invisible:focus {
+  color: $primary-gray;
+  outline: 0 none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
 .card-body {
   border-radius: 3px;
   color: $primary-light;

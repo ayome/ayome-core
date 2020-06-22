@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ComponentFactory, ComponentFactoryResolver, ComponentRef, OnInit} from '@angular/core';
 import {AlertService} from "app/services/alert.service";
+import {ProxyConfigComponent} from "../../components/configuration/proxy/proxy.config.component";
 
 @Component({
     selector: 'app-modal',

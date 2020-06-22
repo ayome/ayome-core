@@ -1,10 +1,11 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ComponentFactory, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {SocketService} from "../../../services/socket.service";
 import {ProxyService} from "../../../services/manage/proxy.service";
 import {AlertService} from "../../../services/alert.service";
 import {chart} from "../../../components/charts/proxy.chart";
 import {ChartComponent} from "ng-apexcharts";
 import anime from "assets/js/anime.min";
+import {ProxyConfigComponent} from "../../../components/configuration/proxy/proxy.config.component";
 
 @Component({
     selector: 'app-first',
@@ -144,7 +145,6 @@ export class ProxyView implements OnInit {
             this.statsCPU.nativeElement.style.width = data.CPUPerc
             this.statsMemory = data.MemPerc
 
-
             this.updateChart(cpu, mem)
         })
     }
@@ -163,5 +163,9 @@ export class ProxyView implements OnInit {
         setTimeout(() => {
             this.console.nativeElement.scrollTop = this.console.nativeElement.scrollHeight
         }, 10)
+    }
+
+    showConfig() {
+        this.proxyService.showConfig()
     }
 }

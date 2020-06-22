@@ -1,5 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
+import {FormsModule} from "@angular/forms";
+import {NgApexchartsModule} from "ng-apexcharts";
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -12,8 +14,7 @@ import {environment} from "environments/environment";
 import {LoginView} from "./views/login/login.view";
 import {DashboardView} from "./views/dashboard/dashboard.view";
 import {ProxyView} from "./views/management/proxy/proxy.view";
-import {FormsModule} from "@angular/forms";
-import {NgApexchartsModule} from "ng-apexcharts";
+import {ProxyConfigComponent} from "./components/configuration/proxy/proxy.config.component";
 
 const socketConfig: SocketIoConfig = {
     url: environment.socketHost,
@@ -26,6 +27,7 @@ const socketConfig: SocketIoConfig = {
         SidebarComponent,
         ModalComponent,
         LoadingComponent,
+        ProxyConfigComponent,
         LoginView,
         DashboardView,
         ProxyView

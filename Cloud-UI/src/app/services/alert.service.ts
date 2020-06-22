@@ -15,7 +15,7 @@ export class AlertService {
     constructor() {
     }
 
-    show(object) {
+    show(object = {content: "", loading: false, btnText: "", callback: null}) {
         this.showModal.next(object)
     }
 

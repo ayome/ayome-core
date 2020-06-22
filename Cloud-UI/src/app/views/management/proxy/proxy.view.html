@@ -18,6 +18,7 @@
                     <div class="col-lg-6">
                         <button type="button" class="btn btn-primary" (click)="stopProxy('default')" *ngIf="proxy.state.status == 'running'" [disabled]="disable"><i class="fas fa-toggle-on"></i> Stop</button>
                         <button type="button" class="btn btn-primary" (click)="startProxy('default')" *ngIf="proxy.state.status != 'running'" [disabled]="disable"><i class="fas fa-toggle-off"></i> Start</button>
+                        <button type="button" class="btn btn-invisible ml-3" (click)="showConfig()"><i class="fas fa-edit"></i> Edit</button>
                     </div>
                     <div class="col-lg-4">
 
@@ -33,13 +34,13 @@
                         <div class="col-lg-6 text-gray">
                             <small>CPU</small><small class="float-right stats-text">{{ textCPU }}</small>
                             <div class="progress">
-                                <div #statsCPU class="progress-bar" role="progressbar" style="width: 0;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">25%</div>
+                                <div #statsCPU class="progress-bar" role="progressbar" style="width: 0;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                         </div>
                         <div class="col-lg-6 text-gray">
                             <small>Memory</small><small class="float-right stats-text">{{ textMemory }}</small>
                             <div class="progress">
-                                <div #statsMemory class="progress-bar" role="progressbar" style="width: 0;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">25%</div>
+                                <div #statsMemory class="progress-bar" role="progressbar" style="width: 0;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                         </div>
                         <div class="col-lg-12">
@@ -74,4 +75,4 @@
         </div>
     </div>
 </div>
-
+<proxy-config></proxy-config>
