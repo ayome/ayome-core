@@ -32,6 +32,7 @@ export class ProxyView implements OnInit {
     public textBlockIO = ""
     public textNetIO = ""
     public textPids = ""
+    public textPorts = ""
 
     constructor(
         private socket: SocketService,
@@ -54,6 +55,7 @@ export class ProxyView implements OnInit {
             this.showProxy = true
             this.proxy = result.data
             this.consoleLog = []
+            this.textPorts = result.ports[0] || ""
             result.log.forEach(s => {
                 this.consoleLog.push(s)
             })
