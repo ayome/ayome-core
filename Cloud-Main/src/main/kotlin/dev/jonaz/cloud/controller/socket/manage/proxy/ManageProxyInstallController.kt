@@ -16,15 +16,13 @@ class ManageProxyInstallController : SocketController {
 
     override fun onEvent(client: SocketIOClient, dataMap: Map<*, *>, ackRequest: AckRequest, session: SessionData?) {
         val data = SocketData.map<Model>(dataMap)
+        val name = "cloud-proxy-${data.name}"
 
         val result = ProxyManager().installProxy(data.name, 512, 25565)
 
-        if (result) DockerLogs().startLoggingToChannel(
-            "cloud-proxy-${data.name}", // Container name
-            "cloud-proxy-${data.name}", // Channel name
-            "log-proxy-${data.name}" // Event name
-        ).also {
-            DockerStats().startStreamToChannel("cloud-proxy-${data.name}")
+        if (result) {
+            DockerStats().startStreamToChannel(name)
+            DockerLogs().startLoggingToChannel(name, name, "updateLog")
         }
 
         ackRequest.sendAckData(
