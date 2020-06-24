@@ -21,7 +21,6 @@ open class DatabaseModel {
 
     object Proxy : Table("proxy") {
         val name = text("name").default("default")
-        val memory = integer("memory")
         val createdAt = datetime("createdAt").default(LocalDateTime.now())
 
         override val primaryKey = PrimaryKey(name, name = "name")
