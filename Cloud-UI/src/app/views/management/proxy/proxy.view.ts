@@ -5,7 +5,6 @@ import {AlertService} from "../../../services/alert.service";
 import {chart} from "../../../components/charts/proxy.chart";
 import {ChartComponent} from "ng-apexcharts";
 import anime from "assets/js/anime.min";
-import {ProxyConfigComponent} from "../../../components/configuration/proxy/proxy.config.component";
 
 @Component({
     selector: 'app-first',
@@ -21,6 +20,7 @@ export class ProxyView implements OnInit {
     public consoleLog = [];
     public disable = false;
     public showProxy = false;
+    public command = ""
 
     @ViewChild("chart") private chart: ChartComponent
     @ViewChild("console") private console: ElementRef
@@ -65,11 +65,11 @@ export class ProxyView implements OnInit {
 
             setTimeout(() => {
                 if (result.data.state.status == "running") {
-                    this.console.nativeElement.classList.add("console-active")
-                    anime({targets: '.console', translateY: 255, duration: 1000, easing: 'spring(0, 20, 30, 0)'})
+                    //this.console.nativeElement.classList.add("console-active")
+                    anime({targets: '.console, .command', translateY: 255, duration: 1000, easing: 'spring(0, 20, 30, 0)'})
                 } else {
-                    this.console.nativeElement.classList.remove("console-active")
-                    anime({targets: '.console', translateY: 0, duration: 1000, easing: 'spring(0, 20, 30, 0)'})
+                    //this.console.nativeElement.classList.remove("console-active")
+                    anime({targets: '.console, .command', translateY: 0, duration: 1000, easing: 'spring(0, 20, 30, 0)'})
                 }
             }, 100)
         }
@@ -169,5 +169,11 @@ export class ProxyView implements OnInit {
 
     showConfig() {
         this.proxyService.showConfig()
+    }
+
+    sendCommand() {
+        const command = this.command
+        this.command = ""
+        this.proxyService.sendCommand("default", command)
     }
 }

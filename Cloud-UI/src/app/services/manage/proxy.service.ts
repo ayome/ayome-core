@@ -54,4 +54,13 @@ export class ProxyService {
     hideConfig() {
         this.hideModal.next()
     }
+
+    sendCommand(name, command) {
+        return new Promise(resolve => {
+            this.socket.emit("/manage/proxy/command", {
+                name: name,
+                command: command
+            }).then(resolve)
+        })
+    }
 }

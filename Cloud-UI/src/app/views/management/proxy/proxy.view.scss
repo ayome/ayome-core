@@ -9,6 +9,10 @@
   user-select: text !important;
 }
 
+.console-area {
+  border: 1px solid #d50c2d;
+}
+
 .console-item {
   font-size: 0.8em;
   line-height: 1px;
@@ -17,7 +21,14 @@
 
 .console-active {
   border: 1px solid #d50c2d;
+  border-bottom: none !important;
   border-radius: 5px;
+}
+
+.command-input, .command-input:focus {
+  border-top-right-radius: 0 !important;
+  border-top-left-radius: 0 !important;
+  box-shadow: none !important;
 }
 
 .stats {
