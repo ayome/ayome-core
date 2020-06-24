@@ -4,16 +4,19 @@ import dev.jonaz.cloud.model.DatabaseModel
 import dev.jonaz.cloud.model.docker.DockerInspectModel
 import dev.jonaz.cloud.util.docker.container.DockerContainer
 import dev.jonaz.cloud.util.docker.container.DockerInspect
+import dev.jonaz.cloud.util.docker.container.DockerRemove
 import dev.jonaz.cloud.util.docker.container.DockerStats
 import dev.jonaz.cloud.util.docker.system.DockerExec
 import dev.jonaz.cloud.util.system.ErrorLogging
 import dev.jonaz.cloud.util.system.SystemPathManager
 import dev.jonaz.cloud.util.system.SystemRuntime
 import dev.jonaz.cloud.util.system.filesystem.DirectoryManager
+import kotlinx.coroutines.delay
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.time.Duration
 
 class ProxyManager : DatabaseModel() {
 
@@ -60,5 +63,21 @@ class ProxyManager : DatabaseModel() {
 
         SystemRuntime.logger.info("Installation of proxy $proxyName completed")
         return true
+    }
+
+    fun remove(name: String): Boolean {
+        val proxyName = "cloud-proxy-$name"
+
+        SystemRuntime.logger.info("Deleting $proxyName")
+
+        transaction {
+            Proxy.deleteWhere { Proxy.name eq name }
+        }
+
+        DockerContainer().stop(proxyName)
+
+        Thread.sleep(5000L)
+
+        return DockerRemove().normal(proxyName)
     }
 }
