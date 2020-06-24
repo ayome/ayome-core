@@ -1,8 +1,9 @@
 <div class="modal" id="config-proxy" *ngIf="!hidden">
     <div class="modal-card">
         <div class="modal-text">
-            awd
+            <label for="memory" class="float-left text-gray">Memory (MB)</label>
+            <input type="text" id="memory" class="form-control" [(ngModel)]="configMemory">
         </div>
-        <button class="btn-modal" >save</button>
+        <button class="btn-modal" (click)="saveConfig()" [disabled]="loading">save</button>
     </div>
 </div>

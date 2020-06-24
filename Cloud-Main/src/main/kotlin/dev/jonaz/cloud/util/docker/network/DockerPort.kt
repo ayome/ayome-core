@@ -1,4 +1,4 @@
-package dev.jonaz.cloud.util.docker.port
+package dev.jonaz.cloud.util.docker.network
 
 import dev.jonaz.cloud.util.system.SystemRuntime
 

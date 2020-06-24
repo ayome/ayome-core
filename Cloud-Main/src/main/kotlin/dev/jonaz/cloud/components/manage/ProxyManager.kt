@@ -41,12 +41,11 @@ class ProxyManager : DatabaseModel() {
             Proxy.deleteWhere { Proxy.name eq name }
             Proxy.insert {
                 it[Proxy.name] = name
-                it[Proxy.memory] = memory
             }
         }
 
         DockerContainer().delete(proxyName)
-        val result = SystemRuntime().exec("docker run -d --name $proxyName -v \"$path\":/server -p $port:25577 itzg/bungeecord")
+        val result = SystemRuntime().exec("docker run -d --name $proxyName -v \"$path\":/server/work -m 2147483648 --memory-swap 2147483648 -p $port:25577 pandentia/bungeecord")
 
         if(result.second.isNotEmpty()) {
             SystemRuntime.logger.error("Installation of proxy $proxyName failed")
