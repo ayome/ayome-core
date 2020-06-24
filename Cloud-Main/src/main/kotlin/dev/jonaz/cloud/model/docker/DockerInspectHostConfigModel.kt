@@ -70,7 +70,7 @@ data class DockerInspectHostConfigModel(
     @SerializedName("CpuShares")
     val cpuShares: Int,
     @SerializedName("Memory")
-    val memory: Int,
+    val memory: Long,
     @SerializedName("NanoCpus")
     val nanoCpus: Int,
     @SerializedName("CgroupParent")
