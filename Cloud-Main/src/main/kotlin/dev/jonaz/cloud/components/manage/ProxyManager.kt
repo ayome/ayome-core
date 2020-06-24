@@ -5,6 +5,7 @@ import dev.jonaz.cloud.model.docker.DockerInspectModel
 import dev.jonaz.cloud.util.docker.container.DockerContainer
 import dev.jonaz.cloud.util.docker.container.DockerInspect
 import dev.jonaz.cloud.util.docker.container.DockerStats
+import dev.jonaz.cloud.util.docker.system.DockerExec
 import dev.jonaz.cloud.util.system.ErrorLogging
 import dev.jonaz.cloud.util.system.SystemPathManager
 import dev.jonaz.cloud.util.system.SystemRuntime
@@ -30,6 +31,10 @@ class ProxyManager : DatabaseModel() {
         return Pair(result.first, result.second)
     }
 
+    fun exec(container: String, command: String) {
+        DockerExec().pty(container, "echo '$command' > /proc/1/fd/0")
+    }
+
     fun installProxy(name: String, memory: Int, port: Int): Boolean {
         SystemRuntime.logger.info("Starting installation of proxy named $name")
 
@@ -45,9 +50,9 @@ class ProxyManager : DatabaseModel() {
         }
 
         DockerContainer().delete(proxyName)
-        val result = SystemRuntime().exec("docker run -d --name $proxyName -v \"$path\":/server/work -m 2147483648 --memory-swap 2147483648 -p $port:25577 pandentia/bungeecord")
+        val result = SystemRuntime().exec("docker run -d -i --name $proxyName -v \"$path\":/server/work -m 2147483648 --memory-swap 2147483648 -p $port:25577 pandentia/bungeecord")
 
-        if(result.second.isNotEmpty()) {
+        if (result.second.isNotEmpty()) {
             SystemRuntime.logger.error("Installation of proxy $proxyName failed")
             ErrorLogging().append(result.second.joinToString("\n"))
             return false

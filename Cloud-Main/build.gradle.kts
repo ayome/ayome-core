@@ -12,6 +12,7 @@ setBuildDir("../build")
 repositories {
     jcenter()
     mavenCentral()
+    maven(url = "https://jetbrains.bintray.com/pty4j")
 }
 
 dependencies {
@@ -31,6 +32,7 @@ dependencies {
     implementation("org.reflections:reflections:0.9.9")
     implementation("com.corundumstudio.socketio:netty-socketio:1.7.12")
     implementation("com.google.code.gson:gson:2.8.6")
+    implementation("org.jetbrains.pty4j:pty4j:0.8.6")
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
