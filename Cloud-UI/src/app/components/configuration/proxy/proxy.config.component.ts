@@ -31,6 +31,10 @@ export class ProxyConfigComponent implements OnInit {
         })
     }
 
+    hideConfig() {
+        this.proxyService.hideConfig()
+    }
+
     getConfig() {
         this.socketService.emit("/manage/proxy/config/get", {name: "default"}).then((data: any) => {
 

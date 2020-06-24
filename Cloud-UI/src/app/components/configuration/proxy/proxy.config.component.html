@@ -1,6 +1,7 @@
 <div class="modal" id="config-proxy" *ngIf="!hidden">
     <div class="modal-card">
         <div class="modal-text">
+            <i class="fas fa-times text-gray float-right mouse-pointer" (click)="hideConfig()"></i>
             <label for="memory" class="float-left text-gray">Memory (MB)</label>
             <input type="text" id="memory" class="form-control" [(ngModel)]="configMemory">
         </div>
