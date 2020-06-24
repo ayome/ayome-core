@@ -4,6 +4,8 @@
             <i class="fas fa-times text-gray float-right mouse-pointer" (click)="hideConfig()"></i>
             <label for="memory" class="float-left text-gray">Memory (MB)</label>
             <input type="text" id="memory" class="form-control" [(ngModel)]="configMemory">
+
+            <p class="text-gray mouse-pointer mt-3 mb-0" (click)="removeQuestion()"><i class="fas fa-trash"></i> Delete proxy server</p>
         </div>
         <button class="btn-modal" (click)="saveConfig()" [disabled]="loading">save</button>
     </div>

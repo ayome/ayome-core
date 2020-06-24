@@ -31,6 +31,10 @@ body {
   color: $primary-light;
 }
 
+.text-danger {
+  color: $primary-red !important;
+}
+
 .btn-primary, .btn-primary:hover, .btn-primary:focus {
   background-color: $primary-red !important;
   outline: 0 none !important;
