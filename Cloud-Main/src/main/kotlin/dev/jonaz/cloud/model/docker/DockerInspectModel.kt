@@ -38,7 +38,7 @@ data class DockerInspectModel(
     @SerializedName("AppArmorProfile")
     val appArmorProfile: String,
     @SerializedName("ExecIDs")
-    val execIDs: Int?,
+    val execIDs: List<*>?,
     @SerializedName("HostConfig")
     val hostConfig: DockerInspectHostConfigModel,
     @SerializedName("GraphDriver")
