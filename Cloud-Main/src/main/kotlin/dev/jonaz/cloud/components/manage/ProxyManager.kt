@@ -42,7 +42,6 @@ class ProxyManager : DatabaseModel() {
             Proxy.insert {
                 it[Proxy.name] = name
                 it[Proxy.memory] = memory
-                it[Proxy.port] = port
             }
         }
 
