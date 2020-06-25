@@ -17,10 +17,6 @@ class ValidateCredentials {
     }
 
     fun validatePassword(password: String): Pair<Boolean, String?> {
-        when (password) {
-            in Regex("[a-zA-Z0-9 ]*") -> return Pair(false, "Your password must have a special character")
-        }
-
         when (password.length) {
             in 200..Int.MAX_VALUE -> return Pair(false, "Your password is too long")
             in Int.MIN_VALUE..5 -> return Pair(false, "Your password is too short")
