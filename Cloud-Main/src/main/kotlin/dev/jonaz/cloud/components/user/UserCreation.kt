@@ -24,15 +24,7 @@ class UserCreation : DatabaseModel() {
         }
     }
 
-    private fun isExist(username: String) = when (
-        transaction {
-            User.select { User.username eq username }.toList()
-        }.size) {
-        0 -> false
-        else -> true
-    }
-
-    private fun generatePassword(): Pair<String, String> {
+    fun generatePassword(): Pair<String, String> {
         val encoder = BCryptPasswordEncoder(10, SecureRandom())
         val source = "ABCDEFGHIJKLMNOPQRSTUVWXYZ.-,/*"
         val password = java.util.Random().ints(16, 0, source.length)
@@ -42,4 +34,14 @@ class UserCreation : DatabaseModel() {
         val encrypted = encoder.encode(password)
         return Pair(encrypted, password)
     }
+
+    private fun isExist(username: String) = when (
+        transaction {
+            User.select { User.username eq username }.toList()
+        }.size) {
+        0 -> false
+        else -> true
+    }
+
+
 }
