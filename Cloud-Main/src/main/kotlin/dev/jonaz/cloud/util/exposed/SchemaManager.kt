@@ -18,7 +18,8 @@ class SchemaManager : DatabaseModel() {
         SchemaUtils.create(
             Application,
             User,
-            Proxy
+            Proxy,
+            Static
         )
     }
 }

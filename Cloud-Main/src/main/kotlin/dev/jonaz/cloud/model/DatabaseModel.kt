@@ -25,4 +25,11 @@ open class DatabaseModel {
 
         override val primaryKey = PrimaryKey(name, name = "name")
     }
+
+    object Static : Table("static") {
+        val name = text("name").default("default")
+        val createdAt = datetime("createdAt").default(LocalDateTime.now())
+
+        override val primaryKey = PrimaryKey(name, name = "name")
+    }
 }
