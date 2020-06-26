@@ -5,6 +5,7 @@ import {AuthGuard} from "./guards/auth.guard";
 import {DashboardView} from "./views/dashboard/dashboard.view";
 import {ProxyView} from "./views/management/proxy/proxy.view";
 import {LoadingComponent} from "./components/loading/loading.component";
+import {StaticView} from "./views/management/static/static.view";
 
 const routes: Routes = [
     /**
@@ -19,7 +20,8 @@ const routes: Routes = [
     /**
      * Management
      */
-    {path: 'manage/proxy', component: ProxyView, canActivate: [AuthGuard]}
+    {path: 'manage/proxy', component: ProxyView, canActivate: [AuthGuard]},
+    {path: 'manage/static', component: StaticView, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

@@ -15,6 +15,7 @@ import {LoginView} from "./views/login/login.view";
 import {DashboardView} from "./views/dashboard/dashboard.view";
 import {ProxyView} from "./views/management/proxy/proxy.view";
 import {ProxyConfigComponent} from "./components/configuration/proxy/proxy.config.component";
+import {StaticView} from "./views/management/static/static.view";
 
 const socketConfig: SocketIoConfig = {
     url: environment.socketHost,
@@ -30,7 +31,8 @@ const socketConfig: SocketIoConfig = {
         ProxyConfigComponent,
         LoginView,
         DashboardView,
-        ProxyView
+        ProxyView,
+        StaticView
     ],
     imports: [
         BrowserModule,
