@@ -6,20 +6,20 @@ import {Subject} from "rxjs";
     providedIn: 'root'
 })
 export class StaticService {
-    private showModal = new Subject()
-    private hideModal = new Subject()
+    private showModalCreate = new Subject()
+    private hideModalCreate = new Subject()
 
-    public showObservable = this.showModal.asObservable()
-    public hideObservable = this.hideModal.asObservable()
+    public showCreateObservable = this.showModalCreate.asObservable()
+    public hideCreateObservable = this.hideModalCreate.asObservable()
 
     constructor(private socket: SocketService) {
     }
 
-    showConfig() {
-        this.showModal.next()
+    showCreateModal() {
+        this.showModalCreate.next()
     }
 
-    hideConfig() {
-        this.hideModal.next()
+    hideCreateModal() {
+        this.hideModalCreate.next()
     }
 }

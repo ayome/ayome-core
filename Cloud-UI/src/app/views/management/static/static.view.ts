@@ -37,6 +37,6 @@ export class StaticView implements OnInit {
     }
 
     addServer() {
-        this.staticService.showConfig()
+        this.staticService.showCreateModal()
     }
 }

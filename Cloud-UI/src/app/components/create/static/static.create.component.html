@@ -5,11 +5,14 @@
 
             <label for="name" class="float-left text-gray">Name</label>
             <input type="text" id="name" class="form-control" placeholder="my-new-server" [(ngModel)]="name">
-            <small #nameTag class="float-left text-danger"></small><br>
 
-            <label for="memory" class="float-left text-gray">Memory (MB)</label>
+            <label for="memory" class="float-left text-gray mt-2">Memory (MB)</label>
             <input type="text" id="memory" class="form-control" placeholder="1024" [(ngModel)]="memory">
-            <small #memoryTag class="float-left text-danger"></small>
+
+            <label for="version" class="float-left text-gray mt-2">Version</label>
+            <select id="version" class="form-control form-control-lg" [(ngModel)]="version">
+                <option *ngFor="let i of versions" value="{{ i }}">Paper {{ i }}</option>
+            </select>
         </div>
         <button class="btn-modal" (click)="create()" [disabled]="loading">Create</button>
     </div>

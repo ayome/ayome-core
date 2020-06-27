@@ -17,6 +17,7 @@ import {ProxyView} from "./views/management/proxy/proxy.view";
 import {ProxyConfigComponent} from "./components/configuration/proxy/proxy.config.component";
 import {StaticView} from "./views/management/static/static.view";
 import {StaticCreateComponent} from "./components/create/static/static.create.component";
+import {HttpClient, HttpClientModule} from "@angular/common/http";
 
 const socketConfig: SocketIoConfig = {
     url: environment.socketHost,
@@ -41,7 +42,8 @@ const socketConfig: SocketIoConfig = {
         AppRoutingModule,
         SocketIoModule.forRoot(socketConfig),
         FormsModule,
-        NgApexchartsModule
+        NgApexchartsModule,
+        HttpClientModule
     ],
     providers: [
         SocketService
