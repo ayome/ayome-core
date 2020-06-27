@@ -31,4 +31,12 @@ class DockerStats {
             return@forEachLine
         }
     }
+
+    fun getStats(name: String): DockerStatsModel? {
+        val raw = SystemRuntime().exec("docker stats $name --format={{\"json \".}}").toString()
+
+        val json = raw.slice(7 until raw.length)
+
+        return Gson().fromJson(json, DockerStatsModel::class.java)
+    }
 }
