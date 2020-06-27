@@ -1,0 +1,16 @@
+<div class="modal" id="create-static" *ngIf="!hidden">
+    <div class="modal-card">
+        <div class="modal-text">
+            <i class="fas fa-times text-gray float-right mouse-pointer" (click)="hideModal()"></i>
+
+            <label for="name" class="float-left text-gray">Name</label>
+            <input type="text" id="name" class="form-control" placeholder="my-new-server" [(ngModel)]="name">
+            <small #nameTag class="float-left text-danger"></small><br>
+
+            <label for="memory" class="float-left text-gray">Memory (MB)</label>
+            <input type="text" id="memory" class="form-control" placeholder="1024" [(ngModel)]="memory">
+            <small #memoryTag class="float-left text-danger"></small>
+        </div>
+        <button class="btn-modal" (click)="create()" [disabled]="loading">Create</button>
+    </div>
+</div>
