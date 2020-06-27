@@ -18,7 +18,7 @@ class ManageProxyInstallController : SocketController {
         val data = SocketData.map<Model>(dataMap)
         val name = "cloud-proxy-${data.name}"
 
-        val result = ProxyManager().installProxy(data.name, 512, 25565)
+        val result = ProxyManager().installProxy(data.name, 2147483648, 25565)
 
         if (result) {
             DockerStats().startStreamToChannel(name)

@@ -23,12 +23,8 @@ class ManageStaticListController : SocketController {
             val server = DockerInspect().getByName(name)
 
             if (server.first) {
-                val stats = DockerStats().getStats(name)
                 val details = mapOf(
-                    "status" to server.second?.state?.status,
-                    "cpuPerc" to stats?.cpuPerc,
-                    "memUsage" to stats?.memUsage,
-                    "memPerc" to stats?.memPerc
+                    "status" to server.second?.state?.status
                 )
                 val model = StaticServerModel(s.name, details)
 

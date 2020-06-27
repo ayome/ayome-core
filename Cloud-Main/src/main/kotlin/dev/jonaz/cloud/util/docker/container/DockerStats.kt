@@ -33,9 +33,10 @@ class DockerStats {
     }
 
     fun getStats(name: String): DockerStatsModel? {
-        val raw = SystemRuntime().exec("docker stats $name --format={{\"json \".}}").toString()
+        val raw = SystemRuntime().exec("docker stats $name --no-stream --format={{\"json \".}}").toString()
 
-        val json = raw.slice(7 until raw.length)
+        val json = raw.slice(2 until raw.length - 6)
+        println(json)
 
         return Gson().fromJson(json, DockerStatsModel::class.java)
     }

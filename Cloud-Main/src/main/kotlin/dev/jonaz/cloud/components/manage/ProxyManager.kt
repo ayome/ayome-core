@@ -38,7 +38,7 @@ class ProxyManager : DatabaseModel() {
         DockerExec().pty(container, "echo '$command' > /proc/1/fd/0")
     }
 
-    fun installProxy(name: String, memory: Int, port: Int): Boolean {
+    fun installProxy(name: String, memory: Long, port: Int): Boolean {
         SystemRuntime.logger.info("Starting installation of proxy named $name")
 
         val proxyName = "cloud-proxy-$name"
@@ -53,7 +53,7 @@ class ProxyManager : DatabaseModel() {
         }
 
         DockerContainer().delete(proxyName)
-        val result = SystemRuntime().exec("docker run -d -i --name $proxyName -v \"$path\":/server/work -m 2147483648 --memory-swap 2147483648 -p $port:25577 pandentia/bungeecord")
+        val result = SystemRuntime().exec("docker run -d -i --name $proxyName -v \"$path\":/server/work -m $memory --memory-swap $memory -p $port:25577 pandentia/bungeecord")
 
         if (result.second.isNotEmpty()) {
             SystemRuntime.logger.error("Installation of proxy $proxyName failed")
