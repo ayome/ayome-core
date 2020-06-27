@@ -6,6 +6,7 @@ import {DashboardView} from "./views/dashboard/dashboard.view";
 import {ProxyView} from "./views/management/proxy/proxy.view";
 import {LoadingComponent} from "./components/loading/loading.component";
 import {StaticView} from "./views/management/static/static.view";
+import {StaticManageView} from "./views/management/static/manage/static.manage.view";
 
 const routes: Routes = [
     /**
@@ -21,7 +22,8 @@ const routes: Routes = [
      * Management
      */
     {path: 'manage/proxy', component: ProxyView, canActivate: [AuthGuard]},
-    {path: 'manage/static', component: StaticView, canActivate: [AuthGuard]}
+    {path: 'manage/static', component: StaticView, canActivate: [AuthGuard]},
+    {path: 'manage/static/:name', component: StaticManageView, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

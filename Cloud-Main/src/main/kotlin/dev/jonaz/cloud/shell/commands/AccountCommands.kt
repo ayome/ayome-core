@@ -32,7 +32,7 @@ class AccountCommands : DatabaseModel() {
 
             SystemRuntime.logger.info(" ")
             SystemRuntime.logger.info("Password has been changed")
-            SystemRuntime.logger.info("Username: admin")
+            SystemRuntime.logger.info("Username: $username")
             SystemRuntime.logger.info("Password: ${newPassword.second}")
             SystemRuntime.logger.info(" ")
 
