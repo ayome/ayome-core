@@ -112,3 +112,21 @@ input[type="color"]:focus,
 .text-primary {
   color: $primary-red
 }
+
+.table-dark {
+  background-color: #232323;
+}
+
+.table-dark th, .table-dark td {
+  border-color: $primary-dark !important;
+}
+
+.table-head {
+  padding-top: 0.35rem !important;
+  padding-bottom: 0.35rem !important;
+  background-color: $primary-dark
+}
+
+.table-dark.table-striped tbody tr:nth-of-type(2n+1) {
+  background-color: #262626;
+}
