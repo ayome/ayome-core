@@ -43,7 +43,16 @@ class StaticManager : DatabaseModel() {
         }
 
         DockerContainer().delete(staticName)
-        val result = SystemRuntime().exec("docker run -d -i --name $staticName -v \"$path\":/data -m $memory --memory-swap $memory -p $port:25565 -e TYPE=PAPER -e VERSION=$version -e EULA=TRUE itzg/minecraft-server")
+        val result = SystemRuntime().exec(
+            "docker run",
+            "-d -i",
+            "--name $staticName",
+            "-v \"$path\":/data",
+            "-m $memory --memory-swap $memory",
+            "-p $port:25565",
+            "-e VERSION=\"$version\"",
+            "jonaznas/papermc"
+        )
 
         if (result.second.isNotEmpty()) {
             SystemRuntime.logger.error("Installation of static $staticName failed")

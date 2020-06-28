@@ -18,11 +18,11 @@ class SystemRuntime {
      * @param timeout Long (Seconds)
      * @return List<String>
      */
-    fun exec(command: String, timeout: Long = 0): Pair<List<String>, List<String>> {
+    fun exec(vararg command: String, timeout: Long = 0): Pair<List<String>, List<String>> {
         val result = mutableListOf<String>()
         val errors = mutableListOf<String>()
         try {
-            val process = runtime.exec(command)
+            val process = runtime.exec(command.joinToString(" "))
 
             if (timeout != 0L) process.waitFor(timeout, TimeUnit.SECONDS)
 
