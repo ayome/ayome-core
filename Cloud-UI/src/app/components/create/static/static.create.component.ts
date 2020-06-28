@@ -67,7 +67,9 @@ export class StaticCreateComponent implements OnInit {
             }).then((data: any) => {
             this.alertService.hide()
             if (data.success) {
-                this.staticService.hideCreateModal()
+                this.router.navigateByUrl(`manage/static/${this.name}`).then(() => {
+                    this.staticService.hideCreateModal()
+                })
             } else {
                 this.alertService.show({
                     content: data.message,
