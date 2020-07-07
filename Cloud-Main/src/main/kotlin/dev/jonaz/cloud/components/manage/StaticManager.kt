@@ -88,4 +88,20 @@ class StaticManager : DatabaseModel() {
         SystemRuntime.logger.info("Installation of static $staticName completed")
         return true
     }
+
+    fun remove(name: String): Boolean {
+        val staticName = "cloud-static-$name"
+
+        SystemRuntime.logger.info("Deleting $staticName")
+
+        transaction {
+            Static.deleteWhere { Static.name eq name }
+        }
+
+        DockerContainer().stop(staticName)
+
+        Thread.sleep(5000L)
+
+        return DockerRemove().normal(staticName)
+    }
 }
