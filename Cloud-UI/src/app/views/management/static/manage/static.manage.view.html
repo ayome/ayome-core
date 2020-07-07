@@ -8,7 +8,74 @@
     <div class="row">
         <div class="col-lg-1"></div>
         <div class="col-lg-10 mt-5">
+            <div class="card card-body p-2 row">
+                <div class="col-lg-12 pr-0 row">
+                    <div class="col-lg-6">
+                        <button type="button" class="btn btn-primary" (click)="stopStatic()" *ngIf="static.state.status == 'running'" [disabled]="disable"><i class="fas fa-toggle-on"></i> Stop</button>
+                        <button type="button" class="btn btn-primary" (click)="startStatic()" *ngIf="static.state.status != 'running'" [disabled]="disable"><i class="fas fa-toggle-off"></i> Start</button>
+                        <button type="button" class="btn btn-invisible ml-3" (click)="showConfig()"><i class="fas fa-edit"></i> Edit</button>
+                    </div>
+                    <div class="col-lg-4">
 
+                    </div>
+                    <div class="col-lg-2 pr-0 text-right">
+                        <p [className]="static.state.status == 'running' ? 'text-success status-text' : 'text-danger status-text'">{{ static.state.status | titlecase }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row card card-body stats mt-1">
+                <div class="col-lg-12 row">
+                    <div class="col-lg-8 row">
+                        <div class="col-lg-6 text-gray">
+                            <small>CPU usage</small><small class="float-right stats-text">{{ textCPU }}</small>
+                            <div class="progress">
+                                <div #statsCPU class="progress-bar" role="progressbar" style="width: 0;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 text-gray">
+                            <small>Memory usage</small><small class="float-right stats-text">{{ textMemory }}</small>
+                            <div class="progress">
+                                <div #statsMemory class="progress-bar" role="progressbar" style="width: 0;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <apx-chart #chart class="stats-chart"
+                                       [series]="this.chartData.series"
+                                       [chart]="this.chartData.chart"
+                                       [dataLabels]="this.chartData.dataLabels"
+                                       [colors]="this.chartData.colors"
+                                       [grid]="this.chartData.grid"
+                                       [tooltip]="this.chartData.tooltip"
+                                       [labels]="this.chartData.labels"
+                                       [yaxis]="this.chartData.yAxis"
+                                       [xaxis]="this.chartData.xAxis"
+                                       [fill]="this.chartData.fill"
+                            ></apx-chart>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 ml-4">
+                        <ul class="list-group stats-list">
+                            <li class="list-group-item stats-list-item">Port-binding: <b class="float-right">{{ textPorts }}</b></li>
+                            <li class="list-group-item stats-list-item">Disk Read/Write: <b class="float-right">{{ textBlockIO }}</b></li>
+                            <li class="list-group-item stats-list-item">Network I/O: <b class="float-right">{{ textNetIO }}</b></li>
+                            <li class="list-group-item stats-list-item">PIDs: <b class="float-right">{{ textPids }}</b></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="card card-body row console mt-1" #console>
+                <div class="col-lg-12">
+                    <p class="console-item text-gray" *ngFor="let i of consoleLog">{{ i }}</p>
+                </div>
+                <div class="col-lg-12">
+                    <label>
+                        <input type="text" class="form-control">
+                    </label>
+                </div>
+            </div>
+            <div class="card card-body row p-0 command" *ngIf="static.state.status == 'running'">
+                <input type="text" class="form-control command-input" placeholder="Type a command here" [(ngModel)]="command" (keydown.enter)="sendCommand()">
+            </div>
         </div>
     </div>
 </div>

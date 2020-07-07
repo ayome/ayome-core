@@ -2,7 +2,7 @@ import {Component, ComponentFactory, ElementRef, OnInit, ViewChild} from '@angul
 import {SocketService} from "../../../services/socket.service";
 import {ProxyService} from "../../../services/manage/proxy.service";
 import {AlertService} from "../../../services/alert.service";
-import {chart} from "../../../components/charts/proxy.chart";
+import {chart} from "../../../components/charts/stats.chart";
 import {ChartComponent} from "ng-apexcharts";
 import anime from "assets/js/anime.min";
 
@@ -65,10 +65,8 @@ export class ProxyView implements OnInit {
 
             setTimeout(() => {
                 if (result.data.state.status == "running") {
-                    //this.console.nativeElement.classList.add("console-active")
                     anime({targets: '.console, .command', translateY: 255, duration: 1000, easing: 'spring(0, 20, 30, 0)'})
                 } else {
-                    //this.console.nativeElement.classList.remove("console-active")
                     anime({targets: '.console, .command', translateY: 0, duration: 1000, easing: 'spring(0, 20, 30, 0)'})
                 }
             }, 100)
@@ -110,7 +108,14 @@ export class ProxyView implements OnInit {
         if (result.success) {
             await this.getProxyData(name)
         } else {
-            alert("Failed to stop proxy")
+            this.alertService.show({
+                content: "Failed to stop server.",
+                btnText: "hide",
+                loading: false,
+                callback: () => {
+                    this.alertService.hide()
+                }
+            })
         }
     }
 
@@ -120,7 +125,14 @@ export class ProxyView implements OnInit {
         if (result.success) {
             await this.getProxyData(name)
         } else {
-            alert("Failed to start proxy")
+            this.alertService.show({
+                content: "Failed to start server.",
+                btnText: "hide",
+                loading: false,
+                callback: () => {
+                    this.alertService.hide()
+                }
+            })
         }
     }
 
@@ -164,7 +176,7 @@ export class ProxyView implements OnInit {
     scrollDown() {
         setTimeout(() => {
             this.console.nativeElement.scrollTop = this.console.nativeElement.scrollHeight
-        }, 10)
+        }, 1)
     }
 
     showConfig() {

@@ -1,11 +1,7 @@
 import {Component, ComponentFactory, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {SocketService} from "../../../services/socket.service";
-import {ProxyService} from "../../../services/manage/proxy.service";
-import {AlertService} from "../../../services/alert.service";
-import {chart} from "../../../components/charts/proxy.chart";
-import {ChartComponent} from "ng-apexcharts";
-import anime from "assets/js/anime.min";
 import {StaticService} from "../../../services/manage/static.service";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-first',
@@ -20,7 +16,7 @@ export class StaticView implements OnInit {
     constructor(
         private staticService: StaticService,
         private socket: SocketService,
-        private alertService: AlertService
+        private router: Router
     ) {
     }
 
@@ -38,5 +34,9 @@ export class StaticView implements OnInit {
 
     addServer() {
         this.staticService.showCreateModal()
+    }
+
+    select(name) {
+        this.router.navigateByUrl(`manage/static/${name}`)
     }
 }
