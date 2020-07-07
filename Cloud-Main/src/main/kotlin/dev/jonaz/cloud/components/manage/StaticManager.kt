@@ -5,11 +5,12 @@ import dev.jonaz.cloud.model.docker.DockerInspectModel
 import dev.jonaz.cloud.model.server.StaticServerModel
 import dev.jonaz.cloud.util.docker.container.DockerContainer
 import dev.jonaz.cloud.util.docker.container.DockerInspect
+import dev.jonaz.cloud.util.docker.container.DockerRemove
+import dev.jonaz.cloud.util.docker.system.DockerExec
 import dev.jonaz.cloud.util.system.ErrorLogging
 import dev.jonaz.cloud.util.system.SystemPathManager
 import dev.jonaz.cloud.util.system.SystemRuntime
 import dev.jonaz.cloud.util.system.filesystem.DirectoryManager
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
@@ -46,6 +47,10 @@ class StaticManager : DatabaseModel() {
         val result = DockerInspect().getByName(staticName)
 
         return Pair(result.first, result.second)
+    }
+
+    fun exec(container: String, command: String) {
+        DockerExec().pty(container, "echo '$command' > /proc/1/fd/0")
     }
 
     fun installStatic(name: String, memory: Long, port: Int, version: String): Boolean {
