@@ -14,8 +14,9 @@ class ManageProxyStopController : SocketController {
 
     override fun onEvent(client: SocketIOClient, dataMap: Map<*, *>, ackRequest: AckRequest, session: SessionData?) {
         val data = SocketData.map<Model>(dataMap)
+        val name = "cloud-proxy-${data.name}"
 
-        val success = DockerContainer().stop("cloud-proxy-${data.name}")
+        val success = DockerContainer().stop(name)
 
         ackRequest.sendAckData(
             mapOf("success" to success)
