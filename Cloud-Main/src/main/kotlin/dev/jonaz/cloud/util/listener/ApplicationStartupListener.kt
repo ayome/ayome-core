@@ -10,12 +10,10 @@ import dev.jonaz.cloud.util.socket.SocketMappingInitializer
 import dev.jonaz.cloud.util.socket.SocketServer
 import dev.jonaz.cloud.util.system.ErrorLogging
 import dev.jonaz.cloud.util.system.SystemPathManager
-import dev.jonaz.cloud.util.system.SystemRuntime
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.env.Environment
 import org.springframework.stereotype.Component
-import java.nio.file.Paths
 
 @Component
 class ApplicationStartupListener : InitializingBean {

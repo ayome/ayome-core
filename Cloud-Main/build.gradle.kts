@@ -30,8 +30,11 @@ dependencies {
 
     implementation("org.xerial:sqlite-jdbc:3.30.1")
     implementation("org.reflections:reflections:0.9.9")
-    implementation("com.corundumstudio.socketio:netty-socketio:1.7.12")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.9.8")
+
     implementation("com.google.code.gson:gson:2.8.6")
+    implementation("com.corundumstudio.socketio:netty-socketio:1.7.12")
+
     implementation("org.jetbrains.pty4j:pty4j:0.8.6")
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")

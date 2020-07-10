@@ -1,22 +1,22 @@
 package dev.jonaz.cloud.components.manage
 
+import dev.jonaz.cloud.components.manage.config.ProxyConfigManager
 import dev.jonaz.cloud.model.DatabaseModel
+import dev.jonaz.cloud.model.config.proxy.ProxyConfigServerModel
 import dev.jonaz.cloud.model.docker.DockerInspectModel
 import dev.jonaz.cloud.util.docker.container.DockerContainer
 import dev.jonaz.cloud.util.docker.container.DockerInspect
 import dev.jonaz.cloud.util.docker.container.DockerRemove
-import dev.jonaz.cloud.util.docker.container.DockerStats
 import dev.jonaz.cloud.util.docker.system.DockerExec
 import dev.jonaz.cloud.util.system.ErrorLogging
 import dev.jonaz.cloud.util.system.SystemPathManager
 import dev.jonaz.cloud.util.system.SystemRuntime
 import dev.jonaz.cloud.util.system.filesystem.DirectoryManager
-import kotlinx.coroutines.delay
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
-import java.time.Duration
 
 class ProxyManager : DatabaseModel() {
 
@@ -79,5 +79,32 @@ class ProxyManager : DatabaseModel() {
         Thread.sleep(5000L)
 
         return DockerRemove().normal(proxyName)
+    }
+
+    fun setSubServers(proxy: String) {
+        val config = ProxyConfigManager(proxy).get()
+        val servers: MutableMap<String, ProxyConfigServerModel> = mutableMapOf()
+
+        fun add(internalName: String, port: Int) {
+            val server = ProxyConfigServerModel(
+                motd = internalName,
+                address = "localhost:$port",
+                restricted = false
+            )
+            servers[internalName] = server
+        }
+
+        transaction {
+            Static.selectAll().toList().forEach { t ->
+                val port = t[Static.port]
+                val simpleName = t[Static.name]
+                val internalName = "cloud-static-$simpleName"
+                add(internalName, port)
+            }
+        }
+
+        config?.servers = servers
+
+        ProxyConfigManager(proxy).overwrite(config)
     }
 }

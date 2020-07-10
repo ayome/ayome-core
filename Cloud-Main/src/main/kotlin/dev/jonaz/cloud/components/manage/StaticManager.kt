@@ -63,7 +63,8 @@ class StaticManager : DatabaseModel() {
         transaction {
             Static.deleteWhere { Static.name eq name }
             Static.insert {
-                it[Proxy.name] = name
+                it[Static.name] = name
+                it[Static.port] = port
             }
         }
 
