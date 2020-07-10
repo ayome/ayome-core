@@ -5,12 +5,7 @@
             <label for="memory" class="float-left text-gray">Memory (MB)</label>
             <input type="text" id="memory" class="form-control" [(ngModel)]="configMemory">
 
-            <label for="defaultServer" class="float-left text-gray mt-2">Default server</label>
-            <select id="defaultServer" class="form-control form-control-lg" [(ngModel)]="configDefaultServer.selected">
-                <option *ngFor="let i of configDefaultServer.list" value="{{ i.name }}">{{ i.name }}</option>
-            </select>
-
-            <p class="text-gray mouse-pointer mt-3 mb-0" (click)="removeQuestion()"><i class="fas fa-trash"></i> Delete proxy server</p>
+            <p class="text-gray mouse-pointer mt-3 mb-0" (click)="removeQuestion()"><i class="fas fa-trash"></i> Delete static server</p>
         </div>
         <button class="btn-modal" (click)="saveConfig()" [disabled]="loading">save</button>
     </div>

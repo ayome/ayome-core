@@ -6,9 +6,13 @@ import {Subject} from "rxjs";
     providedIn: 'root'
 })
 export class StaticService {
+    private showConfigModal = new Subject()
+    private hideConfigModal = new Subject()
     private showModalCreate = new Subject()
     private hideModalCreate = new Subject()
 
+    public showConfigObservable = this.showConfigModal.asObservable()
+    public hideConfigObservable = this.hideConfigModal.asObservable()
     public showCreateObservable = this.showModalCreate.asObservable()
     public hideCreateObservable = this.hideModalCreate.asObservable()
 
@@ -46,6 +50,14 @@ export class StaticService {
                 command: command
             }).then(resolve)
         })
+    }
+
+    showConfig(name) {
+        this.showConfigModal.next(name)
+    }
+
+    hideConfig() {
+        this.hideConfigModal.next()
     }
 
     showCreateModal() {

@@ -3,22 +3,23 @@ import {ProxyService} from "../../../services/manage/proxy.service";
 import {SocketService} from "../../../services/socket.service";
 import {Router} from "@angular/router";
 import {AlertService} from "../../../services/alert.service";
+import {StaticService} from "../../../services/manage/static.service";
 
 @Component({
-    selector: 'proxy-config',
-    templateUrl: './proxy.config.component.html',
-    styleUrls: ['./proxy.config.component.scss']
+    selector: 'static-config',
+    templateUrl: './static.config.component.html',
+    styleUrls: ['./static.config.component.scss']
 })
-export class ProxyConfigComponent implements OnInit {
+export class StaticConfigComponent implements OnInit {
 
+    public name
     public hidden = true
     public loading = false
 
     public configMemory = 0
-    public configDefaultServer = {selected: "", list: []}
 
     constructor(
-        private proxyService: ProxyService,
+        private staticService: StaticService,
         private socketService: SocketService,
         private alertService: AlertService,
         private router: Router
@@ -26,83 +27,80 @@ export class ProxyConfigComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.proxyService.showObservable.subscribe(() => {
+        this.staticService.showConfigObservable.subscribe(name => {
+            this.name = name
             this.getConfig()
 
             this.hidden = false
         })
-        this.proxyService.hideObservable.subscribe(() => {
+        this.staticService.hideConfigObservable.subscribe(() => {
             this.hidden = true
         })
     }
 
     hideConfig() {
-        this.proxyService.hideConfig()
+        this.staticService.hideConfig()
     }
 
     getConfig() {
-        this.socketService.emit("/manage/proxy/config/get", {name: "default"}).then((data: any) => {
+        this.socketService.emit("/manage/static/config/get", {name: this.name}).then((data: any) => {
             this.configMemory = data.inspect.hostConfig.memory / (1024 * 1024)
-            this.configDefaultServer.selected = data.config.listeners[0].priorities[0]
-            this.configDefaultServer.list = data.allServers
         })
     }
 
     saveConfig() {
         this.loading = true
-        console.log(this.configDefaultServer)
         this.socketService.emit(
-            "/manage/proxy/config/save",
+            "/manage/static/config/save",
             {
-                name: "default",
-                defaultServer: this.configDefaultServer.selected,
+                name: this.name,
                 memory: this.configMemory * (1024 * 1024)
             }
         ).then(() => {
             this.loading = false
-            this.proxyService.hideConfig()
+            this.staticService.hideConfig()
         })
     }
 
     removeQuestion() {
         this.alertService.show({
             loading: false,
-            content: "Are you sure you want to remove the proxy server? " +
+            content: "Are you sure you want to remove the static server? " +
                 "It will only deleted in the system. " +
-                "No folders or files will be touched, you have to delete the proxy folder manually. " +
-                "You can simply click the install button again without data lose (like an bungeecord update).",
+                "No folders or files will be touched, you have to delete the " + this.name + " folder manually. " +
+                "You can simply click the install button again without data lose (like an paper update).",
             btnText: "Remove it",
             callback: () => {
-                this.removeProxy()
+                this.removeStatic()
             }
         })
     }
 
-    removeProxy() {
+    removeStatic() {
         this.loading = true
 
-        this.proxyService.hideConfig()
+        this.staticService.hideConfig()
         this.alertService.show({
             loading: true,
-            content: "Removing proxy server",
+            content: "Removing static server",
             btnText: "",
             callback: null
         })
 
         this.socketService.emit(
-            "/manage/proxy/remove",
+            "/manage/static/remove",
             {
-                name: "default"
+                name: this.name
             }
         ).then((res: any) => {
             if (res.success) {
                 this.alertService.show({
                     loading: false,
-                    content: "The proxy server has been removed",
+                    content: "The static server has been removed",
                     btnText: "ok",
                     callback: () => {
                         this.alertService.hide()
-                        this.router.navigateByUrl("/blank").then(() => this.router.navigateByUrl("/manage/proxy"))
+                        this.router.navigateByUrl("/manage/static")
                     }
                 })
             } else {

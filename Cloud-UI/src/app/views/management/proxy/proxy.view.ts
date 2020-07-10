@@ -1,4 +1,4 @@
-import {Component, ComponentFactory, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ComponentFactory, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {SocketService} from "../../../services/socket.service";
 import {ProxyService} from "../../../services/manage/proxy.service";
 import {AlertService} from "../../../services/alert.service";
@@ -41,8 +41,8 @@ export class ProxyView implements OnInit {
     ) {
     }
 
-    async ngOnInit() {
-        await this.getProxyData("default")
+    ngOnInit() {
+        this.getProxyData("default")
     }
 
     async getProxyData(name) {

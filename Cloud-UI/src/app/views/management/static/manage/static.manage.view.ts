@@ -1,4 +1,4 @@
-import {Component, ComponentFactory, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ComponentFactory, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {SocketService} from "../../../../services/socket.service";
 import {AlertService} from "../../../../services/alert.service";
 import {StaticService} from "../../../../services/manage/static.service";
@@ -43,8 +43,9 @@ export class StaticManageView implements OnInit {
         this.name = this.activatedRoute.snapshot.params.name
     }
 
-    async ngOnInit() {
-        await this.getStaticData()
+
+    ngOnInit() {
+        this.getStaticData()
     }
 
     async getStaticData() {
@@ -152,7 +153,7 @@ export class StaticManageView implements OnInit {
     }
 
     showConfig() {
-
+        this.staticService.showConfig(this.name)
     }
 
     sendCommand() {

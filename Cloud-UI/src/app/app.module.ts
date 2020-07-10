@@ -19,6 +19,7 @@ import {StaticView} from "./views/management/static/static.view";
 import {StaticCreateComponent} from "./components/create/static/static.create.component";
 import {HttpClientModule} from "@angular/common/http";
 import {StaticManageView} from "./views/management/static/manage/static.manage.view";
+import {StaticConfigComponent} from "./components/configuration/static/static.config.component";
 
 const socketConfig: SocketIoConfig = {
     url: environment.socketHost,
@@ -31,8 +32,13 @@ const socketConfig: SocketIoConfig = {
         SidebarComponent,
         ModalComponent,
         LoadingComponent,
+
+        /* Configs */
         ProxyConfigComponent,
+        StaticConfigComponent,
         StaticCreateComponent,
+
+        /* Views */
         LoginView,
         DashboardView,
         ProxyView,
