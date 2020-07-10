@@ -2,7 +2,10 @@ package dev.jonaz.cloud.controller.socket.manage.proxy
 
 import com.corundumstudio.socketio.AckRequest
 import com.corundumstudio.socketio.SocketIOClient
+import dev.jonaz.cloud.components.client.ClientRooms
+import dev.jonaz.cloud.components.manage.config.ProxyConfigManager
 import dev.jonaz.cloud.components.manage.ProxyManager
+import dev.jonaz.cloud.model.config.proxy.ProxyConfigModel
 import dev.jonaz.cloud.util.docker.container.DockerLogs
 import dev.jonaz.cloud.util.docker.network.DockerPort
 import dev.jonaz.cloud.util.session.SessionData
@@ -22,6 +25,7 @@ class ManageProxyGetController : SocketController {
         val logs = DockerLogs().getLogs(name, 100)
         val ports = DockerPort().getByName(name)
 
+        ClientRooms().leaveAllDynamicRooms(client)
         client.joinRoom(name)
 
         ackRequest.sendAckData(

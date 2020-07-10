@@ -2,6 +2,7 @@ package dev.jonaz.cloud.controller.socket.manage.static
 
 import com.corundumstudio.socketio.AckRequest
 import com.corundumstudio.socketio.SocketIOClient
+import dev.jonaz.cloud.components.client.ClientRooms
 import dev.jonaz.cloud.components.manage.StaticManager
 import dev.jonaz.cloud.util.docker.container.DockerLogs
 import dev.jonaz.cloud.util.docker.network.DockerPort
@@ -21,6 +22,8 @@ class ManageStaticGetController : SocketController {
 
         val logs = DockerLogs().getLogs(name, 200)
         val ports = DockerPort().getByName(name)
+
+        ClientRooms().leaveAllDynamicRooms(client)
         client.joinRoom(name)
 
         ackRequest.sendAckData(
