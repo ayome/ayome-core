@@ -1,5 +1,6 @@
 package dev.jonaz.cloud.components.manage
 
+import dev.jonaz.cloud.components.manage.setup.StaticSetup
 import dev.jonaz.cloud.model.DatabaseModel
 import dev.jonaz.cloud.model.docker.DockerInspectModel
 import dev.jonaz.cloud.model.server.StaticServerModel
@@ -49,16 +50,21 @@ class StaticManager : DatabaseModel() {
         return Pair(result.first, result.second)
     }
 
-    fun exec(container: String, command: String) {
-        DockerExec().pty(container, "echo '$command' > /proc/1/fd/0")
+    fun exec(container: String, command: String, timeout: Int = 0) {
+        DockerExec().pty(container, "echo '$command' > /proc/1/fd/0", timeout)
     }
 
     fun installStatic(name: String, memory: Long, port: Int, version: String): Boolean {
-        SystemRuntime.logger.info("Starting installation of static named $name")
 
         val staticName = "cloud-static-$name"
+        val proxyName = "cloud-proxy-default"
         val path = "${SystemPathManager.current}static/$name"
+
+        SystemRuntime.logger.info("Starting installation of $staticName")
+
         DirectoryManager().create(path)
+        StaticSetup(name).setupFiles()
+        ProxyManager().exec(proxyName, "cloudCommandAddServer $staticName $port", 100)
 
         transaction {
             Static.deleteWhere { Static.name eq name }
@@ -91,6 +97,7 @@ class StaticManager : DatabaseModel() {
     }
 
     fun remove(name: String): Boolean {
+        val proxyName = "default"
         val staticName = "cloud-static-$name"
 
         SystemRuntime.logger.info("Deleting $staticName")
@@ -99,6 +106,7 @@ class StaticManager : DatabaseModel() {
             Static.deleteWhere { Static.name eq name }
         }
 
+        ProxyManager().exec(proxyName, "cloudCommandRemoveServer $staticName", 100)
         DockerContainer().stop(staticName)
 
         Thread.sleep(5000L)

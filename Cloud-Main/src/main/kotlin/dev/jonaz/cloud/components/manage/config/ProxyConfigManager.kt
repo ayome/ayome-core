@@ -17,6 +17,9 @@ class ProxyConfigManager(name: String) {
 
     fun overwrite(config: ProxyConfigModel?) {
         val file = File(SystemPathManager.current + path)
+
+        if (file.exists().not()) return
+
         val mapper = ObjectMapper(
             YAMLFactory().disable(YAMLGenerator.Feature.WRITE_DOC_START_MARKER)
         )

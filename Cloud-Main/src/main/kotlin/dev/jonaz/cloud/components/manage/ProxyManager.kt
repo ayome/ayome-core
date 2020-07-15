@@ -1,6 +1,7 @@
 package dev.jonaz.cloud.components.manage
 
 import dev.jonaz.cloud.components.manage.config.ProxyConfigManager
+import dev.jonaz.cloud.components.manage.setup.ProxySetup
 import dev.jonaz.cloud.model.DatabaseModel
 import dev.jonaz.cloud.model.config.proxy.ProxyConfigServerModel
 import dev.jonaz.cloud.model.docker.DockerInspectModel
@@ -34,16 +35,18 @@ class ProxyManager : DatabaseModel() {
         return Pair(result.first, result.second)
     }
 
-    fun exec(container: String, command: String) {
-        DockerExec().pty(container, "echo '$command' > /proc/1/fd/0")
+    fun exec(container: String, command: String, timeout: Int = 0) {
+        DockerExec().pty(container, "echo '$command' > /proc/1/fd/0", timeout)
     }
 
     fun installProxy(name: String, memory: Long, port: Int): Boolean {
-        SystemRuntime.logger.info("Starting installation of proxy named $name")
-
         val proxyName = "cloud-proxy-$name"
+        SystemRuntime.logger.info("Starting installation of $proxyName")
+
         val path = "${SystemPathManager.current}proxy/$name"
         DirectoryManager().create(path)
+        ProxySetup(name).setupFiles()
+        setSubServers(name)
 
         transaction {
             Proxy.deleteWhere { Proxy.name eq name }
@@ -53,15 +56,23 @@ class ProxyManager : DatabaseModel() {
         }
 
         DockerContainer().delete(proxyName)
-        val result = SystemRuntime().exec("docker run -d -i --name $proxyName -v \"$path\":/server/work -m $memory --memory-swap $memory -p $port:25577 pandentia/bungeecord")
+        val result = SystemRuntime().exec(
+            "docker run",
+            "-d -i",
+            "--name $proxyName",
+            "-v \"$path\":/server/work",
+            "-m $memory --memory-swap $memory",
+            "-p $port:25577",
+            "pandentia/bungeecord"
+        )
 
         if (result.second.isNotEmpty()) {
-            SystemRuntime.logger.error("Installation of proxy $proxyName failed")
+            SystemRuntime.logger.error("Installation of $proxyName failed")
             ErrorLogging().append(result.second.joinToString("\n"))
             return false
         }
 
-        SystemRuntime.logger.info("Installation of proxy $proxyName completed")
+        SystemRuntime.logger.info("Installation of $proxyName completed")
         return true
     }
 
@@ -81,14 +92,14 @@ class ProxyManager : DatabaseModel() {
         return DockerRemove().normal(proxyName)
     }
 
-    fun setSubServers(proxy: String) {
+    fun setSubServers(proxy: String = "default") {
         val config = ProxyConfigManager(proxy).get()
         val servers: MutableMap<String, ProxyConfigServerModel> = mutableMapOf()
 
         fun add(internalName: String, port: Int) {
             val server = ProxyConfigServerModel(
                 motd = internalName,
-                address = "localhost:$port",
+                address = "host.docker.internal:$port",
                 restricted = false
             )
             servers[internalName] = server

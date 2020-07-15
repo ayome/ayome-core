@@ -32,6 +32,7 @@ class ManageProxyConfigSaveController : SocketController {
          */
         config?.listeners?.get(0)?.priorities?.add(0, data.defaultServer)
         config?.listeners?.get(0)?.priorities = config?.listeners?.get(0)?.priorities?.distinct()?.toMutableList() ?: mutableListOf(data.defaultServer)
+        config?.listeners?.get(0)?.priorities?.remove("none")
 
         ProxyConfigManager(data.name).overwrite(config)
 

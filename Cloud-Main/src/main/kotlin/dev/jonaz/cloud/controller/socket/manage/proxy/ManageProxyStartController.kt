@@ -3,6 +3,7 @@ package dev.jonaz.cloud.controller.socket.manage.proxy
 import com.corundumstudio.socketio.AckRequest
 import com.corundumstudio.socketio.SocketIOClient
 import dev.jonaz.cloud.components.manage.ProxyManager
+import dev.jonaz.cloud.components.manage.setup.ProxySetup
 import dev.jonaz.cloud.util.docker.container.DockerContainer
 import dev.jonaz.cloud.util.docker.container.DockerLogs
 import dev.jonaz.cloud.util.session.SessionData
@@ -19,6 +20,8 @@ class ManageProxyStartController : SocketController {
         val name = "cloud-proxy-${data.name}"
 
         ProxyManager().setSubServers(data.name)
+        ProxySetup(data.name).useDefaultModule("cloud_addon")
+
         val success = DockerContainer().start(name)
 
         DockerLogs().startLoggingToChannel(name, name, "updateLog")
