@@ -97,7 +97,7 @@ class StaticManager : DatabaseModel() {
     }
 
     fun remove(name: String): Boolean {
-        val proxyName = "default"
+        val proxyName = "internal"
         val staticName = "cloud-static-$name"
 
         SystemRuntime.logger.info("Deleting $staticName")

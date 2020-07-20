@@ -92,7 +92,7 @@ class ProxyManager : DatabaseModel() {
         return DockerRemove().normal(proxyName)
     }
 
-    fun setSubServers(proxy: String = "default") {
+    fun setSubServers(proxy: String = "internal") {
         val config = ProxyConfigManager(proxy).get()
         val servers: MutableMap<String, ProxyConfigServerModel> = mutableMapOf()
 

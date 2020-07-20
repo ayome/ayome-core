@@ -1,6 +1,8 @@
 package dev.jonaz.cloud.util.system
 
 import java.io.File
+import java.io.PrintWriter
+import java.io.StringWriter
 import java.time.LocalDateTime
 
 class ErrorLogging {
@@ -18,5 +20,11 @@ class ErrorLogging {
     fun append(message: String) {
         val dateTime = LocalDateTime.now()
         file.appendText("\n$dateTime: $message\n")
+    }
+
+    fun writeStacktrace(e: Exception) {
+        val stringWriter = StringWriter()
+        e.printStackTrace(PrintWriter(stringWriter))
+        append(stringWriter.toString())
     }
 }

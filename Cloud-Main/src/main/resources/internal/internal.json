@@ -1,0 +1,15 @@
+{
+  "update": true,
+  "sources": [
+    {
+      "name": "Cloud-Proxy.jar",
+      "tag": "0.0",
+      "release": "jonaznasNS/internal"
+    },
+    {
+      "name": "Cloud-Static.jar",
+      "tag": "0.0",
+      "release": "jonaznasNS/internal"
+    }
+  ]
+}

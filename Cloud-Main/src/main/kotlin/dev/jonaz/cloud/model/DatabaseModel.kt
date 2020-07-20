@@ -20,14 +20,14 @@ open class DatabaseModel {
     }
 
     object Proxy : Table("proxy") {
-        val name = text("name").default("default")
+        val name = text("name").default("internal")
         val createdAt = datetime("createdAt").default(LocalDateTime.now())
 
         override val primaryKey = PrimaryKey(name, name = "name")
     }
 
     object Static : Table("static") {
-        val name = text("name").default("default")
+        val name = text("name").default("internal")
         val port = integer("port")
         val createdAt = datetime("createdAt").default(LocalDateTime.now())
 
