@@ -10,5 +10,7 @@ node_modules
 *.log
 *.db
 
+Cloud-Main/package-lock.json
+
 Cloud-Main/src/main/resources/static
 Cloud-Main/src/main/resources/static/*
