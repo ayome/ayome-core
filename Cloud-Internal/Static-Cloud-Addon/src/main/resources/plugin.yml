@@ -1,6 +1,0 @@
-name: "cloud-addon"
-version: 1.0.0
-author: Jonaznas
-main: dev.jonaz.cloud.internal.addon.Main
-
-commands: {}

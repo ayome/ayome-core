@@ -1,5 +1,0 @@
-name: "cloud_addon"
-main: "dev.jonaz.cloud.internal.addon.Main"
-version: "1.0.0"
-description: ""
-author: "Jonaznas"
