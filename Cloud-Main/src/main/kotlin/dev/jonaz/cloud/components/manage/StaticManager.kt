@@ -57,14 +57,13 @@ class StaticManager : DatabaseModel() {
     fun installStatic(name: String, memory: Long, port: Int, version: String): Boolean {
 
         val staticName = "cloud-static-$name"
-        val proxyName = "cloud-proxy-default"
         val path = "${SystemPathManager.current}static/$name"
 
         SystemRuntime.logger.info("Starting installation of $staticName")
 
         DirectoryManager().create(path)
         StaticSetup(name).setupFiles()
-        ProxyManager().exec(proxyName, "cloudCommandAddServer $staticName $port", 100)
+        ProxyManager().addSubServer(staticName, port)
 
         transaction {
             Static.deleteWhere { Static.name eq name }
@@ -101,7 +100,6 @@ class StaticManager : DatabaseModel() {
     }
 
     fun remove(name: String): Boolean {
-        val proxyName = "internal"
         val staticName = "cloud-static-$name"
 
         SystemRuntime.logger.info("Deleting $staticName")
@@ -110,7 +108,7 @@ class StaticManager : DatabaseModel() {
             Static.deleteWhere { Static.name eq name }
         }
 
-        ProxyManager().exec(proxyName, "cloudCommandRemoveServer $staticName", 100)
+        ProxyManager().removeSubServer(staticName)
         DockerContainer().stop(staticName)
 
         Thread.sleep(5000L)

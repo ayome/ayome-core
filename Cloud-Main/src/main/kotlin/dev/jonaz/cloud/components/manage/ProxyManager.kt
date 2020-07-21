@@ -9,6 +9,7 @@ import dev.jonaz.cloud.util.docker.container.DockerContainer
 import dev.jonaz.cloud.util.docker.container.DockerInspect
 import dev.jonaz.cloud.util.docker.container.DockerRemove
 import dev.jonaz.cloud.util.docker.system.DockerExec
+import dev.jonaz.cloud.util.socket.SocketHandler
 import dev.jonaz.cloud.util.system.ErrorLogging
 import dev.jonaz.cloud.util.system.SystemPathManager
 import dev.jonaz.cloud.util.system.SystemRuntime
@@ -122,4 +123,19 @@ class ProxyManager : DatabaseModel() {
 
         ProxyConfigManager(proxy).overwrite(config)
     }
+
+    fun addSubServer(name: String, port: Int) = SocketHandler().broadcast(
+        "addServer",
+        mapOf(
+            "name" to name,
+            "port" to port
+        )
+    )
+
+    fun removeSubServer(name: String) = SocketHandler().broadcast(
+        "removeServer",
+        mapOf(
+            "name" to name
+        )
+    )
 }

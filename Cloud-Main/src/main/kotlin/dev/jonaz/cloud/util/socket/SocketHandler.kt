@@ -18,13 +18,16 @@ class SocketHandler {
             val client = server.accept()
             thread {
                 clients.add(client)
-                write(mapOf("success" to true), client)
+                write(mapOf("event" to "welcome"), client)
             }
         }
     }
 
-    fun broadcast(data: Map<*, *>) {
-        clients.forEach { socket -> write(data, socket) }
+    fun broadcast(event: String, data: Map<*, *>) {
+        val jsonData = Gson().toJson(data)
+        val message = mapOf("event" to event, "data" to jsonData)
+
+        clients.forEach { socket -> write(message, socket) }
         removeInactive()
     }
 
