@@ -15,8 +15,8 @@ class InternalSetup {
         InternalUpdateManager().checkUpdate()
 
         extractDefaultFile("/internal/proxy/config.yml", "internal/default/proxy/config.yml")
-        extractDefaultFile("/internal/static/server.properties", "internal/default/spigot/server.properties")
-        extractDefaultFile("/internal/static/spigot.yml", "internal/default/spigot/spigot.yml")
+        extractDefaultFile("/internal/static/server.properties", "internal/default/static/server.properties")
+        extractDefaultFile("/internal/static/spigot.yml", "internal/default/static/spigot.yml")
     }
 
     private fun extractDefaultFile(resourcePath: String, targetPath: String) {

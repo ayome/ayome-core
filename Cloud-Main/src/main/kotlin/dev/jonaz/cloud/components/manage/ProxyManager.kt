@@ -56,6 +56,8 @@ class ProxyManager : DatabaseModel() {
         }
 
         DockerContainer().delete(proxyName)
+        SystemRuntime().exec("docker", "pull", "jonaznas/bungeecord:latest")
+
         val result = SystemRuntime().exec(
             "docker run",
             "-d -i",
@@ -63,12 +65,14 @@ class ProxyManager : DatabaseModel() {
             "-v \"$path\":/server/data",
             "-m $memory --memory-swap $memory",
             "-p $port:25577",
-            "jonaznas/bungeecord"
+            "jonaznas/bungeecord:latest"
         )
 
         if (result.second.isNotEmpty()) {
             SystemRuntime.logger.error("Installation of $proxyName failed")
-            ErrorLogging().append(result.second.joinToString("\n"))
+
+            val message = result.second.joinToString("\n")
+            ErrorLogging().append(message)
             return false
         }
 

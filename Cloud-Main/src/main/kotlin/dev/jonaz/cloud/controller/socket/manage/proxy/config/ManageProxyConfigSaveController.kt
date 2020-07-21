@@ -30,10 +30,7 @@ class ManageProxyConfigSaveController : SocketController {
         /**
          * Update Bungeecord config
          */
-        config?.listeners?.get(0)?.priorities?.add(0, data.defaultServer)
-        config?.listeners?.get(0)?.priorities = config?.listeners?.get(0)?.priorities?.distinct()?.toMutableList() ?: mutableListOf(data.defaultServer)
-        config?.listeners?.get(0)?.priorities?.remove("none")
-
+        config?.listeners?.get(0)?.priorities = mutableListOf(data.defaultServer)
         ProxyConfigManager(data.name).overwrite(config)
 
         ackRequest.sendAckData()

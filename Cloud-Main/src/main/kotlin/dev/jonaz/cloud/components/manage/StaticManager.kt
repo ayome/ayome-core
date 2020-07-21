@@ -75,6 +75,8 @@ class StaticManager : DatabaseModel() {
         }
 
         DockerContainer().delete(staticName)
+        SystemRuntime().exec("docker", "pull", "jonaznas/papermc:latest")
+
         val result = SystemRuntime().exec(
             "docker run",
             "-d -i",
@@ -83,16 +85,18 @@ class StaticManager : DatabaseModel() {
             "-m $memory --memory-swap $memory",
             "-p $port:25565",
             "-e VERSION=\"$version\"",
-            "jonaznas/papermc"
+            "jonaznas/papermc:latest"
         )
 
         if (result.second.isNotEmpty()) {
-            SystemRuntime.logger.error("Installation of static $staticName failed")
-            ErrorLogging().append(result.second.joinToString("\n"))
-            return true
+            SystemRuntime.logger.error("Installation of $staticName failed")
+
+            val message = result.second.joinToString("\n")
+            ErrorLogging().append(message)
+            return false
         }
 
-        SystemRuntime.logger.info("Installation of static $staticName completed")
+        SystemRuntime.logger.info("Installation of $staticName completed")
         return true
     }
 

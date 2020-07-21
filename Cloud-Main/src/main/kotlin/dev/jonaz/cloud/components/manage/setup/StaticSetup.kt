@@ -1,30 +1,32 @@
 package dev.jonaz.cloud.components.manage.setup
 
-import dev.jonaz.cloud.util.system.ErrorLogging
 import dev.jonaz.cloud.util.system.SystemPathManager
-import dev.jonaz.cloud.util.system.SystemRuntime
+import dev.jonaz.cloud.util.system.filesystem.FileManager
 import java.io.File
-import java.lang.Exception
 
 class StaticSetup(val name: String) {
 
     fun setupFiles() {
-        useDefaultFile("server.properties")
-        useDefaultFile("spigot.yml")
+        useFile("server.properties")
+        useFile("spigot.yml")
+        usePlugin("Cloud-Static.jar")
     }
 
-    private fun useDefaultFile(fileName: String) {
-        val content = this::class.java.getResource("/default/static/$fileName").readText()
-        val file = File(SystemPathManager.current + "static/$name/$fileName")
+    private fun usePlugin(fileName: String) {
+        val filePath = File(SystemPathManager.current + "internal/$fileName")
+        val destination = File(SystemPathManager.current + "static/$name/plugins/$fileName")
 
-        try {
-            file.createNewFile()
-            file.appendText(content)
-        } catch (e: FileAlreadyExistsException) {
-            return
-        } catch (e: Exception) {
-            SystemRuntime.logger.error("Cannot load default $fileName")
-            ErrorLogging().append(e.stackTrace.toString())
-        }
+        destination.parentFile.mkdirs()
+
+        FileManager().copyFile(filePath.toPath(), destination.toPath())
+    }
+
+    private fun useFile(fileName: String) {
+        val filePath = File(SystemPathManager.current + "internal/default/static/$fileName")
+        val destination = File(SystemPathManager.current + "static/$name/$fileName")
+
+        destination.parentFile.mkdirs()
+
+        FileManager().copyFile(filePath.toPath(), destination.toPath())
     }
 }
