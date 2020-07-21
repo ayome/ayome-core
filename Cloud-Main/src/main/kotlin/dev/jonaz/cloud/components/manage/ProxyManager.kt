@@ -60,10 +60,10 @@ class ProxyManager : DatabaseModel() {
             "docker run",
             "-d -i",
             "--name $proxyName",
-            "-v \"$path\":/server/work",
+            "-v \"$path\":/server/data",
             "-m $memory --memory-swap $memory",
             "-p $port:25577",
-            "pandentia/bungeecord"
+            "jonaznas/bungeecord"
         )
 
         if (result.second.isNotEmpty()) {
