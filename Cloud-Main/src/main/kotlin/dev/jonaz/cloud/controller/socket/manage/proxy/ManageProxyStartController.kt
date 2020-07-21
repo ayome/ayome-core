@@ -20,7 +20,7 @@ class ManageProxyStartController : SocketController {
         val name = "cloud-proxy-${data.name}"
 
         ProxyManager().setSubServers(data.name)
-        ProxySetup(data.name).useDefaultModule("cloud_addon")
+        ProxySetup(data.name).useModule("Cloud-Proxy.jar")
 
         val success = DockerContainer().start(name)
 

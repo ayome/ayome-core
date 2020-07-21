@@ -1,43 +1,45 @@
 package dev.jonaz.cloud.components.manage.setup
 
+import dev.jonaz.cloud.util.system.ErrorLogging
 import dev.jonaz.cloud.util.system.SystemPathManager
 import dev.jonaz.cloud.util.system.SystemRuntime
 import java.io.File
+import java.io.FileNotFoundException
 import java.nio.file.Files
-import java.nio.file.Paths
+import java.nio.file.Path
 import java.nio.file.StandardCopyOption
 
 class ProxySetup(val name: String) {
 
     fun setupFiles() {
-        useDefaultFile("config.yml")
-        useDefaultModule("cloud_addon")
+        useFile("config.yml")
+        useModule("Cloud-Proxy.jar")
     }
 
-    fun useDefaultModule(moduleName: String) {
-        val modulesPath = SystemPathManager.current + "proxy/$name/modules/"
-        val module = this::class.java.getResourceAsStream("/default/proxy/modules/$moduleName.jar")
-        val destination = Paths.get("$modulesPath$moduleName.jar")
+    fun useModule(moduleName: String) {
+        val modulePath = File(SystemPathManager.current + "internal/$moduleName").toPath()
+        val destination = File(SystemPathManager.current + "proxy/$name/modules/$moduleName").toPath()
 
-        try {
-            File(modulesPath).mkdirs()
-            Files.copy(module, destination, StandardCopyOption.REPLACE_EXISTING)
-        } catch (e: Exception) {
-            SystemRuntime.logger.error("Cannot load default proxy module $moduleName")
-        }
+        copyFile(modulePath, destination)
     }
 
-    private fun useDefaultFile(fileName: String) {
-        val content = this::class.java.getResource("/default/proxy/$fileName").readText()
-        val file = File(SystemPathManager.current + "proxy/$name/$fileName")
+    private fun useFile(fileName: String) {
+        val filePath = File(SystemPathManager.current + "internal/default/$fileName").toPath()
+        val destination = File(SystemPathManager.current + "proxy/$name/$fileName").toPath()
 
+        copyFile(filePath, destination)
+    }
+
+    private fun copyFile(file: Path, destination: Path) {
         try {
-            file.createNewFile()
-            file.appendText(content)
-        } catch (e: FileAlreadyExistsException) {
-            return
+            Files.copy(file, destination, StandardCopyOption.REPLACE_EXISTING)
+        } catch (_: FileNotFoundException) {
+            SystemRuntime.logger.error("Cannot find $file")
+        } catch (e: AccessDeniedException) {
+            SystemRuntime.logger.error("Cannot access $file")
         } catch (e: Exception) {
-            SystemRuntime.logger.error("Cannot load default proxy file $fileName")
+            SystemRuntime.logger.error("Failed to use $file. Open error.log for more information")
+            ErrorLogging().writeStacktrace(e)
         }
     }
 }
