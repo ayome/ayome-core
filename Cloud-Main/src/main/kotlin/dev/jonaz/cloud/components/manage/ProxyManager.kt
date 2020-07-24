@@ -44,7 +44,7 @@ class ProxyManager : DatabaseModel() {
         val proxyName = "cloud-proxy-$name"
         SystemRuntime.logger.info("Starting installation of $proxyName")
 
-        val path = "${SystemPathManager.current}proxy/$name"
+        val path = SystemPathManager.build("proxy", name)
         DirectoryManager().create(path)
         ProxySetup(name).setupFiles()
         setSubServers(name)

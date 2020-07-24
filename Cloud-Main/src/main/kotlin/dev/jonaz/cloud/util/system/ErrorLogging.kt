@@ -6,7 +6,7 @@ import java.io.StringWriter
 import java.time.LocalDateTime
 
 class ErrorLogging {
-    private val file = File(SystemPathManager.current + "error.log")
+    private val file = File(SystemPathManager.build("error.log"))
 
     fun createFile() {
         try {

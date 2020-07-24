@@ -12,9 +12,9 @@ class StaticSetup(val name: String) {
         usePlugin("Cloud-Static.jar")
     }
 
-    private fun usePlugin(fileName: String) {
-        val filePath = File(SystemPathManager.current + "internal/$fileName")
-        val destination = File(SystemPathManager.current + "static/$name/plugins/$fileName")
+    fun usePlugin(fileName: String) {
+        val filePath = File(SystemPathManager.build("internal", fileName))
+        val destination = File(SystemPathManager.build("static", name, "plugins", fileName))
 
         destination.parentFile.mkdirs()
 
@@ -22,8 +22,8 @@ class StaticSetup(val name: String) {
     }
 
     private fun useFile(fileName: String) {
-        val filePath = File(SystemPathManager.current + "internal/default/static/$fileName")
-        val destination = File(SystemPathManager.current + "static/$name/$fileName")
+        val filePath = File(SystemPathManager.build("internal", "default", "static", fileName))
+        val destination = File(SystemPathManager.build("static", name, fileName))
 
         destination.parentFile.mkdirs()
 

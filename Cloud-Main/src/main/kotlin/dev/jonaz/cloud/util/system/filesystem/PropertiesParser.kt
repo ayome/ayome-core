@@ -7,7 +7,7 @@ class PropertiesParser {
 
     fun fromCloudFile(path: String): Properties {
         val properties = Properties()
-        val filePath = SystemPathManager.current + path
+        val filePath = SystemPathManager.build(path)
         val resourceStream = this::class.java.classLoader.getResourceAsStream(filePath)
 
         properties.load(resourceStream)

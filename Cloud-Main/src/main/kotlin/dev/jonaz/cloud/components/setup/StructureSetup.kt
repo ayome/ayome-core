@@ -11,7 +11,7 @@ class StructureSetup {
     fun createDirectories() {
         val array = ObjectMapper().readTree(structure)
         array.forEach { t ->
-            DirectoryManager().create(SystemPathManager.current + t.asText()).also { b ->
+            DirectoryManager().create(SystemPathManager.build(t.asText())).also { b ->
                 if (!b) exitProcess(0)
             }
         }

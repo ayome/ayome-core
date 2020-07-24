@@ -9,7 +9,7 @@ import java.io.File
 import java.io.FileNotFoundException
 
 class InternalUpdateConfigManager {
-    private val path = SystemPathManager.current + "internal/internal.json"
+    private val path = SystemPathManager.build("internal", "internal.json")
 
     fun getConfig(): InternalUpdateConfigModel {
         validateConfig()

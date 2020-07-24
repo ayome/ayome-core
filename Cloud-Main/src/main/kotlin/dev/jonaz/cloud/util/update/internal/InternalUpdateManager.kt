@@ -21,7 +21,7 @@ class InternalUpdateManager {
             try {
                 val release = URL("https://api.github.com/repos/${t.release}/releases/latest").readText()
                 val data = Gson().fromJson(release, Map::class.java)
-                val file = File(SystemPathManager.current + "internal/${t.name}")
+                val file = File(SystemPathManager.build("internal", t.name))
 
                 val tag = data["tag_name"] as String
 
@@ -40,7 +40,7 @@ class InternalUpdateManager {
     }
 
     private fun doUpdate(t: InternalUpdateSourceModel, newTag: String) {
-        val filePath = SystemPathManager.current + "internal/${t.name}"
+        val filePath = SystemPathManager.build("internal", t.name)
 
         File(filePath).delete()
 

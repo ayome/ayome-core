@@ -57,7 +57,7 @@ class StaticManager : DatabaseModel() {
     fun installStatic(name: String, memory: Long, port: Int, version: String): Boolean {
 
         val staticName = "cloud-static-$name"
-        val path = "${SystemPathManager.current}static/$name"
+        val path = SystemPathManager.build("static", name)
 
         SystemRuntime.logger.info("Starting installation of $staticName")
 

@@ -12,16 +12,16 @@ class ProxySetup(val name: String) {
     }
 
     fun useModule(moduleName: String) {
-        val modulePath = File(SystemPathManager.current + "internal/$moduleName")
-        val destination = File(SystemPathManager.current + "proxy/$name/modules/$moduleName")
+        val modulePath = File(SystemPathManager.build("internal", moduleName))
+        val destination = File(SystemPathManager.build("proxy", name, "modules", moduleName))
 
         destination.parentFile.mkdirs()
         FileManager().copyFile(modulePath.toPath(), destination.toPath())
     }
 
     private fun useFile(fileName: String) {
-        val filePath = File(SystemPathManager.current + "internal/default/proxy/$fileName")
-        val destination = File(SystemPathManager.current + "proxy/$name/$fileName")
+        val filePath = File(SystemPathManager.build("internal", "default", "proxy", fileName))
+        val destination = File(SystemPathManager.build("proxy", name, fileName))
 
         destination.parentFile.mkdirs()
         FileManager().copyFile(filePath.toPath(), destination.toPath())

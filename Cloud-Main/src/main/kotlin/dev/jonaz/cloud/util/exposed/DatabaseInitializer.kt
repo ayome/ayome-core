@@ -14,7 +14,7 @@ class DatabaseInitializer {
     init {
         SystemRuntime.logger.info("Initialization database...")
         dataSource = DataSourceModel(
-            "jdbc:sqlite:${SystemPathManager.current}data.db",
+            "jdbc:sqlite:${SystemPathManager.build("data.db")}",
             "org.sqlite.JDBC"
         )
     }

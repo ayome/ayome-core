@@ -8,7 +8,7 @@ class ResourcesManager {
 
     fun extractFileToPath(resourcePath: String, targetPath: String) {
         val content = this::class.java.getResource(resourcePath).readText()
-        val target = File(SystemPathManager.current + targetPath)
+        val target = File(SystemPathManager.build(targetPath))
 
         try {
             target.parentFile.mkdirs()
