@@ -13,8 +13,7 @@ class DockerContainer {
         if (success) {
             SystemRuntime.logger.info("Successfully started $name")
             DockerStats().startStreamToChannel(name)
-        }
-        else SystemRuntime.logger.error("Failed to start $name")
+        } else SystemRuntime.logger.error("Failed to start $name")
 
         return success
     }
@@ -29,6 +28,12 @@ class DockerContainer {
         else SystemRuntime.logger.error("Failed to stop $name")
 
         return success
+    }
+
+    fun exist(name: String): Boolean {
+        val container = DockerInspect().getByName(name)
+
+        return container.first && container.second != null
     }
 
     fun delete(name: String): Boolean {

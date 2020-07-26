@@ -40,7 +40,6 @@ class SystemRuntime {
             inputReader.close()
             errorReader.close()
         } catch (e: Exception) {
-            logger.error("Failed to exec command on your system (${e.message})")
         }
         return Pair(result, errors)
     }

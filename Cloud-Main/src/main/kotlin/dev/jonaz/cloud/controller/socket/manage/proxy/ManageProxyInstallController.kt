@@ -2,7 +2,7 @@ package dev.jonaz.cloud.controller.socket.manage.proxy
 
 import com.corundumstudio.socketio.AckRequest
 import com.corundumstudio.socketio.SocketIOClient
-import dev.jonaz.cloud.components.manage.ProxyManager
+import dev.jonaz.cloud.components.manage.installation.ProxyInstallation
 import dev.jonaz.cloud.util.docker.container.DockerLogs
 import dev.jonaz.cloud.util.docker.container.DockerStats
 import dev.jonaz.cloud.util.session.SessionData
@@ -18,15 +18,15 @@ class ManageProxyInstallController : SocketController {
         val data = SocketData.map<Model>(dataMap)
         val name = "cloud-proxy-${data.name}"
 
-        val result = ProxyManager().installProxy(data.name, 2147483648, 25565)
+        val success = ProxyInstallation(data.name, 2147483648, 25565).start()
 
-        if (result) {
+        if (success) {
             DockerStats().startStreamToChannel(name)
             DockerLogs().startLoggingToChannel(name, name, "updateLog")
         }
 
         ackRequest.sendAckData(
-            mapOf("success" to result)
+            mapOf("success" to success)
         )
     }
 

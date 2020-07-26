@@ -5,6 +5,7 @@ import com.corundumstudio.socketio.SocketIOClient
 import dev.jonaz.cloud.components.manage.ProxyManager
 import dev.jonaz.cloud.components.manage.StaticManager
 import dev.jonaz.cloud.components.manage.StaticValidator
+import dev.jonaz.cloud.components.manage.installation.StaticInstallation
 import dev.jonaz.cloud.util.docker.container.DockerLogs
 import dev.jonaz.cloud.util.docker.container.DockerStats
 import dev.jonaz.cloud.util.session.SessionData
@@ -34,15 +35,15 @@ class ManageStaticCreateController : SocketController {
         val name = "cloud-static-${data.name}"
         val port = SocketUtils.findAvailableTcpPort()
 
-        val result = StaticManager().installStatic(data.name, data.memory, port, data.version)
+        val success = StaticInstallation(data.name, data.memory, port, data.version).start()
 
-        if (result) {
+        if (success) {
             ProxyManager().setSubServers()
             DockerStats().startStreamToChannel(name)
             DockerLogs().startLoggingToChannel(name, name, "updateLog")
         }
 
-        ackRequest.sendAckData(Response(result, null))
+        ackRequest.sendAckData(Response(success, null))
     }
 
     data class Response(

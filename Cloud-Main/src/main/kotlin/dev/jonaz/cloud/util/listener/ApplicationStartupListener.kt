@@ -5,12 +5,15 @@ import dev.jonaz.cloud.util.exposed.DatabaseInitializer
 import dev.jonaz.cloud.util.exposed.SchemaManager
 import dev.jonaz.cloud.util.socket.SocketMappingInitializer
 import dev.jonaz.cloud.util.socket.SocketServer
+import dev.jonaz.cloud.util.system.ApplicationConfigManager
+import dev.jonaz.cloud.util.system.EnvironmentUtils
 import dev.jonaz.cloud.util.system.ErrorLogging
 import dev.jonaz.cloud.util.system.SystemPathManager
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.env.Environment
 import org.springframework.stereotype.Component
+import javax.annotation.PreDestroy
 
 @Component
 class ApplicationStartupListener : InitializingBean {
@@ -19,7 +22,9 @@ class ApplicationStartupListener : InitializingBean {
 
     override fun afterPropertiesSet() {
         SystemSetup().isCompatible()
-        SystemPathManager().setSystemPath(env)
+        EnvironmentUtils().setEnvironment(env)
+        SystemPathManager().setSystemPath()
+        ApplicationConfigManager().setup()
         ErrorLogging().createFile()
 
         StructureSetup().createDirectories()

@@ -54,51 +54,6 @@ class StaticManager : DatabaseModel() {
         DockerExec().pty(container, "echo '$command' > /proc/1/fd/0", timeout)
     }
 
-    fun installStatic(name: String, memory: Long, port: Int, version: String): Boolean {
-
-        val staticName = "cloud-static-$name"
-        val path = SystemPathManager.build("static", name)
-
-        SystemRuntime.logger.info("Starting installation of $staticName")
-
-        DirectoryManager().create(path)
-        StaticSetup(name).setupFiles()
-        ProxyManager().addSubServer(staticName, port)
-
-        transaction {
-            Static.deleteWhere { Static.name eq name }
-            Static.insert {
-                it[Static.name] = name
-                it[Static.port] = port
-            }
-        }
-
-        DockerContainer().delete(staticName)
-        SystemRuntime().exec("docker", "pull", "jonaznas/papermc:latest")
-
-        val result = SystemRuntime().exec(
-            "docker run",
-            "-d -i",
-            "--name $staticName",
-            "-v \"$path\":/data",
-            "-m $memory --memory-swap $memory",
-            "-p $port:25565",
-            "-e VERSION=\"$version\"",
-            "jonaznas/papermc:latest"
-        )
-
-        if (result.second.isNotEmpty()) {
-            SystemRuntime.logger.error("Installation of $staticName failed")
-
-            val message = result.second.joinToString("\n")
-            ErrorLogging().append(message)
-            return false
-        }
-
-        SystemRuntime.logger.info("Installation of $staticName completed")
-        return true
-    }
-
     fun remove(name: String): Boolean {
         val staticName = "cloud-static-$name"
 
