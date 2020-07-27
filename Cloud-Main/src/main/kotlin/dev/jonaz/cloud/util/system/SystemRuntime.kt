@@ -22,7 +22,8 @@ class SystemRuntime {
         val result = mutableListOf<String>()
         val errors = mutableListOf<String>()
         try {
-            val process = runtime.exec(command.joinToString(" "))
+            val builder = ProcessBuilder(*command)
+            val process = builder.start()
 
             if (timeout != 0L) process.waitFor(timeout, TimeUnit.SECONDS)
 
@@ -40,11 +41,13 @@ class SystemRuntime {
             inputReader.close()
             errorReader.close()
         } catch (e: Exception) {
+            logger.debug("Failed to exec")
+            ErrorLogging().writeStacktrace(e)
         }
         return Pair(result, errors)
     }
 
-    fun execRaw(command: String): Process {
-        return runtime.exec(command)
+    fun execRaw(vararg command: String): Process {
+        return ProcessBuilder(*command).start()
     }
 }

@@ -20,7 +20,6 @@ class StaticInstallation(_name: String, _memory: Long, _port: Int, _version: Str
     private val finalName = "cloud-static-$singleName"
     private val path = SystemPathManager.build("static", singleName)
 
-
     fun start(): Boolean {
         DirectoryManager().create(path)
         ProxySetup(singleName).setupFiles()
@@ -35,7 +34,7 @@ class StaticInstallation(_name: String, _memory: Long, _port: Int, _version: Str
             "docker run",
             "-d -i",
             "--name $finalName",
-            "-v '$path':/data",
+            "-v $path:/data",
             "-m $memory",
             "-p $port:25565",
             "-e VERSION=\"$version\"",

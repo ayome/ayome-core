@@ -19,7 +19,6 @@ class ProxyInstallation(_name: String, _memory: Long, _port: Int) {
     private val finalName = "cloud-proxy-$singleName"
     private val path = SystemPathManager.build("proxy", singleName)
 
-
     fun start(): Boolean {
         DirectoryManager().create(path)
         ProxySetup(singleName).setupFiles()
@@ -29,15 +28,12 @@ class ProxyInstallation(_name: String, _memory: Long, _port: Int) {
 
         SystemRuntime().exec("docker", "pull", "jonaznas/bungeecord:latest")
 
-        val fullPath = "\"$path\""
-        println(fullPath)
         val result = SystemRuntime().exec(
-            "docker run",
-            "-d -i",
-            "--name $finalName",
-            "-v $fullPath:/server/data",
-            "-m $memory",
-            "-p $port:25577",
+            "docker", "run", "-d", "-i",
+            "--name", finalName,
+            "-v", "$path:/server/data",
+            "-m", memory.toString(),
+            "-p", "$port:25577",
             "jonaznas/bungeecord:latest"
         )
 

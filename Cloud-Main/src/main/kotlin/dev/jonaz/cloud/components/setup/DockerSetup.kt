@@ -10,7 +10,7 @@ import kotlin.system.exitProcess
 class DockerSetup {
 
     fun isInstalled(): Boolean {
-        val info = SystemRuntime().exec("docker top .")
+        val info = SystemRuntime().exec("docker", "top", ".")
 
         return when {
             info.second.size != 1 -> false
@@ -21,7 +21,7 @@ class DockerSetup {
 
     fun install() = when (SystemRuntime.systemType) {
         SystemType.Windows -> {
-            val version = SystemRuntime().exec("docker --version")
+            val version = SystemRuntime().exec("docker", "--version")
 
             if (version.first.get(0).contains("Docker version")) {
                 SystemRuntime.logger.error("Docker engine is not running")

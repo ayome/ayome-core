@@ -7,9 +7,10 @@ class InstallationSetup {
     fun startInstallation() {
         SystemRuntime.logger.info("Setting up dependencies...")
 
-        when (false) {
-            DockerSetup().isInstalled() -> DockerSetup().install()
-            DatabaseSetup().isExist() -> DatabaseSetup().finishSetup()
-        }
+        if (DockerSetup().isInstalled().not())
+            DockerSetup().install()
+
+        if (DatabaseSetup().isExist())
+            DatabaseSetup().finishSetup()
     }
 }

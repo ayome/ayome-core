@@ -1,6 +1,7 @@
 package dev.jonaz.cloud.util.system
 
 import java.nio.file.Paths
+import kotlin.system.exitProcess
 
 class SystemPathManager {
     companion object {
@@ -18,5 +19,15 @@ class SystemPathManager {
             Paths.get(workDir, "build", "libs").toAbsolutePath().toString()
         else
             Paths.get(workDir).toAbsolutePath().toString()
+
+        checkSpaces()
+    }
+
+    private fun checkSpaces() = when (true) {
+        current.contains(" ") -> {
+            SystemRuntime.logger.error("Spaces in path are not allowed")
+            exitProcess(0)
+        }
+        else -> null
     }
 }

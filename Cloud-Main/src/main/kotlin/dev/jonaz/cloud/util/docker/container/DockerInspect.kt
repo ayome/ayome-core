@@ -8,7 +8,7 @@ import java.lang.Exception
 class DockerInspect {
 
     fun getByName(name: String): Pair<Boolean, DockerInspectModel?> {
-        val inspection = SystemRuntime().exec("docker inspect $name")
+        val inspection = SystemRuntime().exec("docker", "inspect", name)
         return try {
             var objectString = ""
             inspection.first.forEach { t -> objectString += t }
