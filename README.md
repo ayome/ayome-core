@@ -16,7 +16,7 @@ A web-based system to manage minecraft servers in a bungeecord network. The user
 
 ### 🏷 Features
 
-# | Description
+Feature | Description
 ------------ | ------------
 **Automatic installation** | _It will automaticly create and configure all files after running the file_
 **Proxy** | _Install, manage, edit and delete the bungeecord server_
@@ -33,7 +33,7 @@ A web-based system to manage minecraft servers in a bungeecord network. The user
 
 #### Default ports:
 
-# | Description
+Port | Description
 ------------ | ------------
 **7401** | Web-UI
 **7402** | Websocket server for the Web-UI
