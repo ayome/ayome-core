@@ -31,13 +31,12 @@ class StaticInstallation(_name: String, _memory: Long, _port: Int, _version: Str
         SystemRuntime().exec("docker", "pull", "jonaznas/papermc:latest")
 
         val result = SystemRuntime().exec(
-            "docker run",
-            "-d -i",
-            "--name $finalName",
-            "-v $path:/data",
-            "-m $memory",
-            "-p $port:25565",
-            "-e VERSION=\"$version\"",
+            "docker", "run", "-d", "-i",
+            "--name", finalName,
+            "-v", "$path:/data",
+            "-m", memory.toString(),
+            "-p", "$port:25565",
+            "-e", "VERSION=\"$version\"",
             "jonaznas/papermc:latest"
         )
 
@@ -58,7 +57,6 @@ class StaticInstallation(_name: String, _memory: Long, _port: Int, _version: Str
         model.deleteWhere { model.name eq singleName }
         model.insert {
             it[model.name] = singleName
-            it[model.port] = port
         }
     }
 

@@ -28,7 +28,7 @@ open class DatabaseModel {
 
     object Static : Table("static") {
         val name = text("name").default("internal")
-        val port = integer("port")
+        val port = integer("port").default(0)
         val createdAt = datetime("createdAt").default(LocalDateTime.now())
 
         override val primaryKey = PrimaryKey(name, name = "name")

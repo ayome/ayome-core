@@ -23,10 +23,13 @@ class DockerSetup {
         SystemType.Windows -> {
             val version = SystemRuntime().exec("docker", "--version")
 
-            if (version.first.get(0).contains("Docker version")) {
-                SystemRuntime.logger.error("Docker engine is not running")
-            } else {
-                SystemRuntime.logger.error("On windows you need to install docker manually")
+            try {
+                if (version.first.get(0).contains("Docker version")) {
+                    SystemRuntime.logger.error("Docker engine is not running")
+                } else {
+                    SystemRuntime.logger.error("On windows you need to install docker manually")
+                }
+            } catch (_: Exception) {
             }
 
             SystemRuntime.logger.error("More information here https://docs.docker.com/docker-for-windows/install/")

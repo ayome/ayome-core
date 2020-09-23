@@ -10,7 +10,7 @@ class InstallationSetup {
         if (DockerSetup().isInstalled().not())
             DockerSetup().install()
 
-        if (DatabaseSetup().isExist())
+        if (DatabaseSetup().isExist().not())
             DatabaseSetup().finishSetup()
     }
 }

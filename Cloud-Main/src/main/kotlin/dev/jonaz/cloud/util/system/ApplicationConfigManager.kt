@@ -3,6 +3,7 @@ package dev.jonaz.cloud.util.system
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dev.jonaz.cloud.model.config.ApplicationConfigModel
+import dev.jonaz.cloud.util.system.filesystem.DirectoryManager
 import java.io.File
 
 class ApplicationConfigManager {
@@ -26,6 +27,8 @@ class ApplicationConfigManager {
         )
         val builder = GsonBuilder().setPrettyPrinting().create()
         val json = builder.toJson(model)
+
+        DirectoryManager().create(file.parentFile.absolutePath)
 
         file.delete()
         file.createNewFile()

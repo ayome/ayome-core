@@ -1,4 +1,4 @@
-rootProject.name = "Cloud"
+rootProject.name = "core"
 
 include(
     "Cloud-Main",
