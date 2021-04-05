@@ -10,9 +10,9 @@ group = "dev.jonaz.cloud"
 setBuildDir("../build")
 
 repositories {
-    jcenter()
     mavenCentral()
-    maven(url = "https://jetbrains.bintray.com/pty4j")
+    maven("https://jetbrains.bintray.com/pty4j")
+    maven("https://repo1.maven.org/maven2")
 }
 
 dependencies {
@@ -41,9 +41,9 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
 
-    implementation("org.jetbrains.exposed:exposed-core:0.25.1")
-    implementation("org.jetbrains.exposed:exposed-jdbc:0.25.1")
-    implementation("org.jetbrains.exposed:exposed-java-time:0.25.1")
+    implementation("org.jetbrains.exposed:exposed-core:0.30.1")
+    implementation("org.jetbrains.exposed:exposed-jdbc:0.30.1")
+    implementation("org.jetbrains.exposed:exposed-java-time:0.30.1")
 }
 
 tasks {
